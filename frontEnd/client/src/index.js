@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter for ro
 import App from './App';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import solarizedDarkTheme from './theme/solarizedDarkTheme'; // Import your custom theme
-import solarizedDarkTheme from './theme/solarizedDarkTheme';
+// import solarizedDarkTheme from './theme/solarizedDarkTheme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
