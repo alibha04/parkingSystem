@@ -71,7 +71,7 @@ const Navbar = () => {
           <IconButton
             color="primary"
             component="a"
-            href="https://github.com/bscCohort/bkmgmt-deploy"
+            href="https://github.com/alibha04/parkingSystem"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"

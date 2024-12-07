@@ -1,195 +1,233 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Slide, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { 
+  Box, 
+  TextField, 
+  Typography, 
+  Button, 
+  Snackbar, 
+  Alert 
+} from '@mui/material';
 import axios from 'axios';
 
-const CreateBook = (props) => {
+const CreateLot = () => {
   const navigate = useNavigate();
-  const [book, setBook] = useState({
-    title: '',
-    isbn: '',
-    author: '',
+  const [slot, setSlot] = useState({
+    name: '',
+    maxcount: '',
+    phonenumber: '',
+    rentperday: '',
+    type: '',
     description: '',
-    published_date: '',
-    publisher: '',
+    location: '',
+    features: '',
   });
-  const [showToast, setShowToast] = useState(false);
 
-  const onChange = (e) => {
-    setBook({ ...book, [e.target.name]: e.target.value });
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: '',
+  });
+
+  const handleChange = (e) => {
+    setSlot({ ...slot, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    axios
-      .post('/api/books', book)
-      .then((res) => {
-        setBook({
-          title: '',
-          isbn: '',
-          author: '',
-          description: '',
-          published_date: '',
-          publisher: '',
-        });
-
-        // Show the success alert
-        toast.success('Book added successfully!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Slide,
-        });
-
-        // Delay the navigation slightly to allow the toast to be seen
-        setTimeout(() => {
-          setShowToast(false); // Hide the toast
-          navigate('/'); // Navigate to homepage
-        }, 5000); // Adjust the timeout as needed
-
-      })
-      .catch((err) => {
-        console.log('Error in CreateBook!');
-        console.log('The error is -> ')
-        console.log(err)
-        // Show the success alert
-        toast.error('Something went wrong, try again!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Slide,
-        });
+    try {
+      // Send POST request
+      await axios.post('http://localhost:5000/Slots', {
+        ...room,
+        features: slot.features.split(',').map((item) => item.trim()),
       });
+
+      // Show success notification
+      setNotification({
+        open: true,
+        message: 'Slot Booked successfully!',
+        severity: 'success',
+      });
+
+      // Clear the form and redirect to home after a short delay
+      setSlot({
+        name: '',
+        maxcount: '',
+        phonenumber: '',
+        rentperday: '',
+        type: '',
+        description: '',
+        location: '',
+        features: '',
+      });
+      setTimeout(() => navigate('/'), 1500);
+    } catch (error) {
+      console.error('Error in Booking Slot:', error);
+
+      // Show error notification
+      setNotification({
+        open: true,
+        message: 'Failed to book slot Please try again!',
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    navigate('/'); // Navigate back to home
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, open: false });
   };
 
   return (
-    <div className='CreateBook'>
-      {/* <Navbar /> */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Slide}
-      />
+    <Box
+      sx={{
+        maxWidth: 600,
+        margin: 'auto',
+        padding: 4,
+        borderRadius: 2,
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        backgroundColor: 'white',
+      }}
+    >
+      <Typography 
+        variant="h4" 
+        component="h1" 
+        textAlign="center" 
+        mb={3}
+        color="primary"
+      >
+        Book A New Slot
+      </Typography>
+      
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label="Slot Number"
+          name="name"
+          variant="outlined"
+          value={slot.name}
+          onChange={handleChange}
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Max Count"
+          name="maxcount"
+          variant="outlined"
+          value={slot.maxcount}
+          onChange={handleChange}
+          required
+          type="number"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Phone Number"
+          name="phonenumber"
+          variant="outlined"
+          value={slot.phonenumber}
+          onChange={handleChange}
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Rent per Day"
+          name="rentperday"
+          variant="outlined"
+          value={slot.rentperday}
+          onChange={handleChange}
+          required
+          type="number"
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Type (e.g., Single, Double)"
+          name="type"
+          variant="outlined"
+          value={slot.type}
+          onChange={handleChange}
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Description"
+          name="description"
+          variant="outlined"
+          value={slot.description}
+          onChange={handleChange}
+          required
+          multiline
+          rows={3}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Location"
+          name="location"
+          variant="outlined"
+          value={slot.location}
+          onChange={handleChange}
+          required
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Features (comma-separated)"
+          name="features"
+          variant="outlined"
+          value={slot.features}
+          onChange={handleChange}
+          required
+          sx={{ mb: 2 }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            mt: 3,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            sx={{ width: '48%' }}
+          >
+            Create Slot
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleCancel}
+            sx={{ width: '48%' }}
+          >
+            Cancel
+          </Button>
+        </Box>
+      </form>
 
-      <div className='container'>
-        <div className='row'>
-          <div className='col-md-8 m-auto'>
-            <br />
-            <Link to='/' className='btn btn-outline-warning float-left'>
-              Show BooK List
-            </Link>
-          </div>
-          <div className='col-md-8 m-auto'>
-            <h1 className='display-4 text-center'>Add Book</h1>
-            <p className='lead text-center'>Create new book</p>
-
-            <form noValidate onSubmit={onSubmit}>
-              <div className='form-group'>
-                <input
-                  type='text'
-                  placeholder='Title of the Book'
-                  name='title'
-                  className='form-control'
-                  value={book.title}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <div className='form-group'>
-                <input
-                  type='text'
-                  placeholder='ISBN'
-                  name='isbn'
-                  className='form-control'
-                  value={book.isbn}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <div className='form-group'>
-                <input
-                  type='text'
-                  placeholder='Author'
-                  name='author'
-                  className='form-control'
-                  value={book.author}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <div className='form-group'>
-                <input
-                  type='text'
-                  placeholder='Describe this book'
-                  name='description'
-                  className='form-control'
-                  value={book.description}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <div className='form-group'>
-                <input
-                  type='date'
-                  placeholder='published_date'
-                  name='published_date'
-                  className='form-control'
-                  value={book.published_date}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <div className='form-group'>
-                <input
-                  type='text'
-                  placeholder='Publisher of this Book'
-                  name='publisher'
-                  className='form-control'
-                  value={book.publisher}
-                  onChange={onChange}
-                />
-              </div>
-              <br />
-
-              <input
-                type='submit'
-                className='btn btn-outline-warning btn-block mt-4'
-              />
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={handleCloseNotification}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity={notification.severity}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
-export default CreateBook;
+export default CreateLot;
