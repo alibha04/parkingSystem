@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'; // No need to import Router an
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
 import solarizedDarkTheme from './theme/solarizedDarkTheme' ; 
+import CreateSlot from './components/CreateSlot';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -31,6 +32,7 @@ const App = () => {
         >
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/createSlotList" element={<CreateSlot />} />
             {/* Uncomment and add these routes as needed */}
             {/* <Route path="/about-us" element={<AboutUs />} /> */}
             {/* <Route path="/show-rooms" element={<ShowRooms />} /> */}

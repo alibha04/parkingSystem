@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const CreateLot = () => {
+const CreateSlot = () => {
   const navigate = useNavigate();
   const [slot, setSlot] = useState({
     name: '',
@@ -38,7 +38,7 @@ const CreateLot = () => {
     try {
       // Send POST request
       await axios.post('http://localhost:5000/Slots', {
-        ...room,
+        ...slot,
         features: slot.features.split(',').map((item) => item.trim()),
       });
 
@@ -230,4 +230,4 @@ const CreateLot = () => {
   );
 };
 
-export default CreateLot;
+export default CreateSlot;
