@@ -20,31 +20,34 @@ const CreateSlot = () => {
     slotNumber: '',
     type: '',
     maxCapacity: '',
-    rentPerHour: '',
+    duration: '', // Add duration field
+    rentPerHour: 50, // Fixed rate per hour
+    totalRent: 0, // Calculated total rent
     status: 'Available',
     customerName: '',
     phoneNumber: '',
     vehicleNumber: '',
     vehicleType: '',
     location: '',
-    gpsCoordinates: '',
-    features: '',
-    description: '',
-  });
-
-  const [notification, setNotification] = useState({
-    open: false,
-    message: '',
-    severity: '',
   });
 
   const handleChange = (e) => {
-    setSlot({ ...slot, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let updatedSlot = { ...slot, [name]: value };
+
+    // Calculate total rent dynamically when duration is updated
+    if (name === 'duration') {
+      const hours = parseInt(value, 10) || 0;
+      updatedSlot.totalRent = hours * updatedSlot.rentPerHour;
+    }
+
+    setSlot(updatedSlot);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    
     // Save data in state and redirect to the confirmation page
     navigate('/confirmedSlot', { state: { slot } });
   };
@@ -53,9 +56,7 @@ const CreateSlot = () => {
     navigate('/');
   };
 
-  const handleCloseNotification = () => {
-    setNotification({ ...notification, open: false });
-  };
+  
 
   return (
     <Box
@@ -78,106 +79,41 @@ const CreateSlot = () => {
         Create Parking Slot
       </Typography>
 
-      <form onSubmit={handleSubmit}>
-        {/* Slot Details */}
-        <TextField
-          fullWidth
-          label="Slot Number/Name"
-          name="slotNumber"
-          variant="outlined"
-          value={slot.slotNumber}
-          onChange={handleChange}
-          required
-          sx={{ mb: 2 }}
-        />
 
-        <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel>Type of Slot</InputLabel>
-          <Select
-            name="type"
-            value={slot.type}
-            onChange={handleChange}
-            required
-          >
-            <MenuItem value="Car">Car</MenuItem>
-            <MenuItem value="Bike">Bike</MenuItem>
-            <MenuItem value="Truck">Truck</MenuItem>
-            <MenuItem value="EV Charging">EV Charging</MenuItem>
-          </Select>
-        </FormControl>
-{/* 
-        <TextField
-          fullWidth
-          label="Max Capacity"
-          name="maxCapacity"
-          variant="outlined"
-          type="number"
-          value={slot.maxCapacity}
-          onChange={handleChange}
-          required
-          sx={{ mb: 2 }}
-        /> */}
+      <TextField
+  fullWidth
+  label="Customer Name"
+  name="customerName"
+  variant="outlined"
+  type="text"
+  value={slot.customerName}
+  onChange={handleChange}
+  sx={{ mb: 2 }}
+  pattern={{
+    pattern: "^[A-Za-z ]+$", // Allows only letters and spaces
+    title: "Only alphabets and spaces are allowed",
+  }}
+/>
 
-        <TextField
-          fullWidth
-          label="Rent per Hour (e.g., 50)"
-          name="rentPerHour"
-          variant="outlined"
-          type="number"
-          value={slot.rentPerHour}
-          onChange={handleChange}
-          required
-          sx={{ mb: 2 }}
-        />
+        
 
-        {/* <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel>Slot Status</InputLabel>
-          <Select
-            name="status"
-            value={slot.status}
-            onChange={handleChange}
-            required
-          >
-            <MenuItem value="Available">Available</MenuItem>
-            <MenuItem value="Occupied">Occupied</MenuItem>
-            <MenuItem value="Reserved">Reserved</MenuItem>
-          </Select>
-        </FormControl> */}
 
-        {/* Customer Details */}
-        <TextField
-          fullWidth
-          label="Customer Name"
-          name="customerName"
-          variant="outlined"
-          value={slot.customerName}
-          onChange={handleChange}
-          sx={{ mb: 2 }}
-        />
         <TextField
           fullWidth
           label="Phone Number"
           name="phoneNumber"
           variant="outlined"
+          type='tel'
           value={slot.phoneNumber}
           onChange={handleChange}
           sx={{ mb: 2 }}
-        />
+          />
         <TextField
           fullWidth
           label="Vehicle Number"
           name="vehicleNumber"
           variant="outlined"
           value={slot.vehicleNumber}
-          onChange={handleChange}
-          sx={{ mb: 2 }}
-        />
-        <TextField
-          fullWidth
-          label="Vehicle Type (e.g., Sedan, SUV)"
-          name="vehicleType"
-          variant="outlined"
-          value={slot.vehicleType}
           onChange={handleChange}
           sx={{ mb: 2 }}
         />
@@ -193,39 +129,53 @@ const CreateSlot = () => {
           required
           sx={{ mb: 2 }}
         />
-        {/* <TextField
+
+<form onSubmit={handleSubmit}>
+        {/* Slot Details */}
+        <TextField
           fullWidth
-          label="GPS Coordinates (Optional)"
-          name="gpsCoordinates"
+          label="Slot Number"
+          name="slotNumber"
           variant="outlined"
-          value={slot.gpsCoordinates}
+          type='number'
+          value={slot.slotNumber}
           onChange={handleChange}
+          required
           sx={{ mb: 2 }}
         />
 
-        Additional Details
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Vehicle Type </InputLabel>
+          <Select
+            name="type"
+            value={slot.type}
+            onChange={handleChange}
+            required
+          >
+            <MenuItem value="Car">Car</MenuItem>
+            <MenuItem value="Bike">Bike</MenuItem>
+            <MenuItem value="Truck">Truck</MenuItem>
+            <MenuItem value="EV Charging">EV Charging</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* Replace rentPerHour with duration */}
         <TextField
           fullWidth
-          label="Features (comma-separated)"
-          name="features"
+          label="Duration (in hours)"
+          name="duration"
           variant="outlined"
-          value={slot.features}
+          type="number"
+          value={slot.duration}
           onChange={handleChange}
           required
           sx={{ mb: 2 }}
         />
-        <TextField
-          fullWidth
-          label="Description"
-          name="description"
-          variant="outlined"
-          value={slot.description}
-          onChange={handleChange}
-          required
-          multiline
-          rows={3}
-          sx={{ mb: 2 }}
-        /> */}
+
+        {/* Display total rent dynamically */}
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          Total Rent: {slot.totalRent} Rupees
+        </Typography>
 
         {/* Buttons */}
         <Box
@@ -241,7 +191,7 @@ const CreateSlot = () => {
             type="submit"
             sx={{ width: '48%' }}
           >
-            Save/Create Slot
+            Book Slot
           </Button>
           <Button
             variant="outlined"
@@ -258,3 +208,4 @@ const CreateSlot = () => {
 };
 
 export default CreateSlot;
+

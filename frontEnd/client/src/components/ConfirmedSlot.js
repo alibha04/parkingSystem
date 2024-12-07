@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
 
+
 const ConfirmedSlot = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
