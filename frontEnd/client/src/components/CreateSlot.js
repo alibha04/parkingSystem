@@ -105,7 +105,7 @@ const CreateSlot = () => {
             <MenuItem value="EV Charging">EV Charging</MenuItem>
           </Select>
         </FormControl>
-
+{/* 
         <TextField
           fullWidth
           label="Max Capacity"
@@ -116,7 +116,7 @@ const CreateSlot = () => {
           onChange={handleChange}
           required
           sx={{ mb: 2 }}
-        />
+        /> */}
 
         <TextField
           fullWidth
@@ -130,7 +130,7 @@ const CreateSlot = () => {
           sx={{ mb: 2 }}
         />
 
-        <FormControl fullWidth sx={{ mb: 2 }}>
+        {/* <FormControl fullWidth sx={{ mb: 2 }}>
           <InputLabel>Slot Status</InputLabel>
           <Select
             name="status"
@@ -142,7 +142,7 @@ const CreateSlot = () => {
             <MenuItem value="Occupied">Occupied</MenuItem>
             <MenuItem value="Reserved">Reserved</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
 
         {/* Customer Details */}
         <TextField
