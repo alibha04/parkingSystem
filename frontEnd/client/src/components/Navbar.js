@@ -85,3 +85,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+{/* <div class="label">Switch theme</div>
+  <div>id </div> */}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom'; // No need to import Router anymore
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
-import solarizedDarkTheme from './theme/solarizedDarkTheme' ;
+import retroTheme from './theme/retroTheme' ;
  
 import CreateSlot from './components/CreateSlot';
 
@@ -15,7 +15,7 @@ import HomePage from './components/HomePage';
 
 const App = () => {
   return (
-    <ThemeProvider theme={solarizedDarkTheme}>
+    <ThemeProvider theme={retroTheme}>
       <CssBaseline />
       <Box
         sx={{
