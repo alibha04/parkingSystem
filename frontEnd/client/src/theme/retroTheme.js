@@ -1,110 +1,146 @@
+// src/theme/generateTheme.js
 import { createTheme } from '@mui/material/styles';
 
-const luxuriousColors = {
-  darkBase: '#262425',          // Deep, rich dark background for the website
-  goldAccent: '#D9B88F',        // Elegant gold for primary highlights
-  bronze: '#BF8654',            // Warm bronze for buttons and accents
-  lightBeige: '#A67A60',        // Light beige for borders, text
-  deepMaroon: '#733030',        // Bold red for error messages and emphasis
+const colors = {
+  base: '#f4f4f9', // Light background for the home page
+  surface: '#c0c0d0', // Surface elements like cards
+  navbar: '#004d40', // Dark teal for navbar background
+  footer: '#002f34', // Dark teal variant for footer background
+  muted: '#9090a0', // Muted text
+  subtle: '#606070', // Subtle text
+  textPrimary: '#ffffff', // White text for visibility on dark elements
+  textSecondary: '#303030', // Dark text for light backgrounds
+  primary: '#00796b', // Button primary color
+  secondary: '#00acc1', // Button hover or secondary actions
+  error: '#ae2012', // Error state color
+  warning: '#bb3e03', // Warning state color
+  info: '#009688', // Info state color
+  success: '#2e7d32', // Success state color
+  highlight: '#edf2f4', // Highlight backgrounds
 };
 
-const luxuriousTheme = createTheme({
+const generateTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     background: {
-      default: luxuriousColors.darkBase, // Main background
-      paper: luxuriousColors.lightBeige, // Card background
+      default: colors.base,
+      paper: colors.surface,
     },
     primary: {
-      main: luxuriousColors.goldAccent, // Key UI elements
+      main: colors.primary,
     },
     secondary: {
-      main: luxuriousColors.bronze, // Secondary buttons or accents
+      main: colors.secondary,
     },
     error: {
-      main: luxuriousColors.deepMaroon, // Error or emphasis
+      main: colors.error,
     },
     warning: {
-      main: '#F5A623', // Warm yellow for warnings
+      main: colors.warning,
     },
     info: {
-      main: '#8D99AE', // Neutral soft gray for info
+      main: colors.info,
     },
     success: {
-      main: '#2D6A4F', // Deep green for success
+      main: colors.success,
     },
     text: {
-      primary: luxuriousColors.goldAccent, // Primary text
-      secondary: '#A2A2A2', // Muted text
+      primary: colors.textPrimary,
+      secondary: colors.textSecondary,
     },
   },
   typography: {
-    fontFamily: '"Playfair Display", "Roboto", "Arial", sans-serif',
+    fontFamily: 'Nunito, Arial, sans-serif',
     h1: {
-      fontSize: '2.5rem',
+      fontFamily: 'Nunito, sans-serif',
       fontWeight: 700,
-      color: luxuriousColors.goldAccent, // Headers use gold
+      fontSize: '2.5rem',
+      color: colors.textSecondary, // Dark color for light backgrounds
     },
     h2: {
-      fontSize: '2rem',
+      fontFamily: 'Nunito, sans-serif',
       fontWeight: 600,
-      color: luxuriousColors.goldAccent,
+      fontSize: '2rem',
+      color: colors.textSecondary,
     },
     h3: {
-      fontSize: '1.75rem',
+      fontFamily: 'Nunito, sans-serif',
       fontWeight: 500,
-      color: luxuriousColors.bronze,
+      fontSize: '1.75rem',
+      color: colors.textSecondary,
     },
     body1: {
+      fontFamily: 'Nunito, sans-serif',
       fontSize: '1rem',
-      color: '#E0E0E0', // Neutral light text for readability
+      color: colors.textSecondary,
     },
     body2: {
+      fontFamily: 'Nunito, sans-serif',
       fontSize: '0.875rem',
-      color: '#BFBFBF',
+      color: colors.textSecondary,
     },
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: luxuriousColors.darkBase, // Dark background for Navbar
-          color: luxuriousColors.lightBeige, // Ensure visibility of text
+          backgroundColor: colors.navbar, // Updated navbar color
+          color: colors.textPrimary, // White text for visibility
+          borderBottom: `3px solid ${colors.primary}`,
+        },
+      },
+    },
+    MuiFooter: {
+      styleOverrides: {
+        root: {
+          backgroundColor: colors.footer, // Updated footer color
+          color: colors.textPrimary, // White text for visibility
+          borderTop: `3px solid ${colors.primary}`,
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none',
-          borderRadius: '8px',
-          backgroundColor: luxuriousColors.bronze,
-          color: '#FFFFFF', // Ensuring text is visible on dark backgrounds
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          borderRadius: '6px',
+          padding: '10px 18px',
+          backgroundColor: colors.primary,
+          color: colors.textPrimary, // White text for visibility
           '&:hover': {
-            backgroundColor: '#A65F3B', // Slightly darker bronze on hover
+            backgroundColor: colors.secondary,
           },
         },
       },
     },
     MuiCssBaseline: {
-      styleOverrides: `
-        body {
-          background-color: ${luxuriousColors.darkBase};
-          color: ${luxuriousColors.lightBeige};
-        }
-      `,
+      styleOverrides: {
+        '@global': {
+          '@import': `url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap')`,
+          body: {
+            margin: 0,
+            padding: 0,
+            backgroundColor: colors.base,
+            color: colors.textSecondary, // Default text color for light backgrounds
+            fontFamily: `'Nunito', sans-serif`,
+            lineHeight: 1.8,
+          },
+        },
+      },
     },
-    MuiCard: {
+    MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: luxuriousColors.lightBeige, // Warm beige card
-          borderRadius: '12px',
-          padding: '16px',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', // Luxurious shadow
+          padding: '24px',
+          borderRadius: '10px',
+          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
+          backgroundColor: colors.surface,
+          color: colors.textSecondary, // Dark text for contrast
         },
       },
     },
   },
 });
 
-export default luxuriousTheme;
+export default generateTheme;
