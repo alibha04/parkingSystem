@@ -482,50 +482,7 @@ const CreateSlot = () => {
           Total Rent: {slot.totalRent} Rupees
         </Typography>
 
-  {/* Vehicle Type
-  <FormControl fullWidth sx={{ mb: 2 , input: { color: 'black' }  }}   >
-      <Select
-        name="vehicleType"
-        label="Vehicle Type"
-        value={slot.vehicleType}
-        onChange={handleChange}
-        required
-        sx={{ textAlign: 'left' }}
-        
-      >
-        <MenuItem value="Car">Car</MenuItem>
-        <MenuItem value="Bike">Bike</MenuItem>
-        <MenuItem value="Truck">Truck</MenuItem>
-        <MenuItem value="EV Charging">EV Charging</MenuItem>
-      </Select>
-    </FormControl> */}
-
-
-<FormControl fullWidth sx={{ mb: 2 }}>
-  <InputLabel>Vehicle Type</InputLabel>
-  <Select
-    name="vehicleType"
-    value={slot.vehicleType}
-    onChange={(e) => handleChange(e)}
-    required
-    displayEmpty // Ensures a placeholder is shown when nothing is selected
-    sx={{
-      textAlign: 'left', // Ensure selected value is properly aligned
-      input: { color: 'black', backgroundColor: 'white' }, // Ensure the selected text color is visible and add background color for readability
-    }}
-  >
-    <MenuItem value="" disabled>
-      Select a Vehicle Type
-    </MenuItem>
-    <MenuItem value="Car">Car</MenuItem>
-    <MenuItem value="Bike">Bike</MenuItem>
-    <MenuItem value="Truck">Truck</MenuItem>
-    <MenuItem value="EV Charging">EV Charging</MenuItem>
-  </Select>
-</FormControl>
-
-
-
+     
 
     <TextField
   fullWidth
