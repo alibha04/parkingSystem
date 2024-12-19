@@ -1,146 +1,140 @@
-// src/theme/generateTheme.js
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
-const colors = {
-  base: '#f4f4f9', // Light background for the home page
-  surface: '#c0c0d0', // Surface elements like cards
-  navbar: '#004d40', // Dark teal for navbar background
-  footer: '#002f34', // Dark teal variant for footer background
-  muted: '#9090a0', // Muted text
-  subtle: '#606070', // Subtle text
-  textPrimary: '#ffffff', // White text for visibility on dark elements
-  textSecondary: '#303030', // Dark text for light backgrounds
-  primary: '#00796b', // Button primary color
-  secondary: '#00acc1', // Button hover or secondary actions
-  error: '#ae2012', // Error state color
-  warning: '#bb3e03', // Warning state color
-  info: '#009688', // Info state color
-  success: '#2e7d32', // Success state color
-  highlight: '#edf2f4', // Highlight backgrounds
-};
+// const modernColors = {
+//   base: '#f7fafc',        // Light neutral background
+//   surface: '#e2e8f0',     // Slightly darker neutral surface
+//   overlay: '#cbd5e0',     // Muted overlay color
+//   muted: '#94a3b8',       // Soft muted tone
+//   subtle: '#64748b',      // Subtle darker accent
+//   text: '#2d3748',        // Main text color
+//   primary: '#3182ce',     // Calming blue
+//   secondary: '#2b6cb0',   // Slightly darker blue
+//   error: '#e53e3e',       // Warm red for errors
+//   warning: '#dd6b20',     // Earthy orange for warnings
+//   info: '#4299e1',        // Soft blue for info
+//   success: '#38a169',     // Calming green for success
+//   highlight: '#edf2f7',   // Light highlight color
+// };
 
-const generateTheme = createTheme({
-  palette: {
-    mode: 'light',
-    background: {
-      default: colors.base,
-      paper: colors.surface,
-    },
-    primary: {
-      main: colors.primary,
-    },
-    secondary: {
-      main: colors.secondary,
-    },
-    error: {
-      main: colors.error,
-    },
-    warning: {
-      main: colors.warning,
-    },
-    info: {
-      main: colors.info,
-    },
-    success: {
-      main: colors.success,
-    },
-    text: {
-      primary: colors.textPrimary,
-      secondary: colors.textSecondary,
-    },
-  },
-  typography: {
-    fontFamily: 'Nunito, Arial, sans-serif',
-    h1: {
-      fontFamily: 'Nunito, sans-serif',
-      fontWeight: 700,
-      fontSize: '2.5rem',
-      color: colors.textSecondary, // Dark color for light backgrounds
-    },
-    h2: {
-      fontFamily: 'Nunito, sans-serif',
-      fontWeight: 600,
-      fontSize: '2rem',
-      color: colors.textSecondary,
-    },
-    h3: {
-      fontFamily: 'Nunito, sans-serif',
-      fontWeight: 500,
-      fontSize: '1.75rem',
-      color: colors.textSecondary,
-    },
-    body1: {
-      fontFamily: 'Nunito, sans-serif',
-      fontSize: '1rem',
-      color: colors.textSecondary,
-    },
-    body2: {
-      fontFamily: 'Nunito, sans-serif',
-      fontSize: '0.875rem',
-      color: colors.textSecondary,
-    },
-  },
-  components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.navbar, // Updated navbar color
-          color: colors.textPrimary, // White text for visibility
-          borderBottom: `3px solid ${colors.primary}`,
-        },
-      },
-    },
-    MuiFooter: {
-      styleOverrides: {
-        root: {
-          backgroundColor: colors.footer, // Updated footer color
-          color: colors.textPrimary, // White text for visibility
-          borderTop: `3px solid ${colors.primary}`,
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'uppercase',
-          fontWeight: 600,
-          borderRadius: '6px',
-          padding: '10px 18px',
-          backgroundColor: colors.primary,
-          color: colors.textPrimary, // White text for visibility
-          '&:hover': {
-            backgroundColor: colors.secondary,
-          },
-        },
-      },
-    },
-    MuiCssBaseline: {
-      styleOverrides: {
-        '@global': {
-          '@import': `url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap')`,
-          body: {
-            margin: 0,
-            padding: 0,
-            backgroundColor: colors.base,
-            color: colors.textSecondary, // Default text color for light backgrounds
-            fontFamily: `'Nunito', sans-serif`,
-            lineHeight: 1.8,
-          },
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          padding: '24px',
-          borderRadius: '10px',
-          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
-          backgroundColor: colors.surface,
-          color: colors.textSecondary, // Dark text for contrast
-        },
-      },
-    },
-  },
-});
+// const newFreshTheme = createTheme({
+//   palette: {
+//     mode: 'light',
+//     background: {
+//       default: modernColors.base,
+//       paper: modernColors.surface,
+//     },
+//     primary: {
+//       main: modernColors.primary,
+//     },
+//     secondary: {
+//       main: modernColors.secondary,
+//     },
+//     error: {
+//       main: modernColors.error,
+//     },
+//     warning: {
+//       main: modernColors.warning,
+//     },
+//     info: {
+//       main: modernColors.info,
+//     },
+//     success: {
+//       main: modernColors.success,
+//     },
+//     text: {
+//       primary: modernColors.text,
+//       secondary: modernColors.subtle,
+//     },
+//   },
+//   typography: {
+//     fontFamily: 'Nunito, Arial, sans-serif',
+//     h1: {
+//       fontFamily: 'Nunito, sans-serif',
+//       fontWeight: 700,
+//       fontSize: '2.5rem',
+//     },
+//     h2: {
+//       fontFamily: 'Nunito, sans-serif',
+//       fontWeight: 600,
+//       fontSize: '2rem',
+//     },
+//     h3: {
+//       fontFamily: 'Nunito, sans-serif',
+//       fontWeight: 500,
+//       fontSize: '1.75rem',
+//     },
+//     body1: {
+//       fontFamily: 'Nunito, sans-serif',
+//       fontSize: '1rem',
+//     },
+//     body2: {
+//       fontFamily: 'Nunito, sans-serif',
+//       fontSize: '0.875rem',
+//     },
+//   },
+//   components: {
+//     MuiAppBar: {
+//       styleOverrides: {
+//         root: {
+//           backgroundColor: modernColors.overlay,
+//           color: modernColors.text,
+//           borderBottom: `3px solid ${modernColors.primary}`,
+//         },
+//       },
+//     },
+//     MuiFooter: {
+//       styleOverrides: {
+//         root: {
+//           backgroundColor: modernColors.overlay,
+//           color: modernColors.text,
+//           borderTop: `3px solid ${modernColors.primary}`,
+//         },
+//       },
+//     },
+//     MuiButton: {
+//       styleOverrides: {
+//         root: {
+//           textTransform: 'uppercase',
+//           fontWeight: 600,
+//           borderRadius: '6px',
+//           padding: '10px 18px',
+//           backgroundColor: modernColors.primary,
+//           color: '#ffffff',
+//           '&:hover': {
+//             backgroundColor: modernColors.secondary,
+//           },
+//         },
+//       },
+//     },
+//     MuiCssBaseline: {
+//       styleOverrides: `
+//         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
 
-export default generateTheme;
+//         body {
+//           margin: 0;
+//           padding: 0;
+//           background-color: ${modernColors.base};
+//           color: ${modernColors.text};
+//           font-family: 'Nunito', sans-serif;
+//           line-height: 1.8;
+//         }
+//       `,
+//     },
+//     MuiPaper: {
+//       styleOverrides: {
+//         root: {
+//           padding: '24px',
+//           borderRadius: '10px',
+//           boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
+//         },
+//       },
+//     },
+//   },
+// });
+
+// export default newFreshTheme;
+
+
+
+
+
