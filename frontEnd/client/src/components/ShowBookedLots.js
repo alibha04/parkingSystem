@@ -1,3 +1,4 @@
+// src/components/ShowParkingList.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -7,102 +8,73 @@ import {
   Container,
   Grid,
   CircularProgress,
-  Box,
-  Card,
-  CardContent,
-  CardActions,
+  Alert,
 } from '@mui/material';
+import ParkingSlotCard from './ParkingSlotCard'; // Component to display individual parking slot details
 
-function ShowBookedLots() {
-  const [lots, setLots] = useState([]);
+function ShowParkingList() {
+  const [parkingSlots, setParkingSlots] = useState([]); // State for parking slots data
   const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
-    // Fetch the list of booked parking lots from an API endpoint
     axios
-      .get(`/api/parking-lots`)
+      .get('https://your-api-endpoint/api/parking-slots') // Replace with your parking slots API
       .then((res) => {
-        setLots(res.data);
-        setLoading(false); // Set loading to false once data is fetched
+        setParkingSlots(res.data); // Populate parking slots
+        setLoading(false); // Set loading to false
       })
       .catch((err) => {
-        console.log('Error from ShowBookedLots ->', err);
-        setLoading(false); // Set loading to false even on error
+        console.error('Error fetching parking slots:', err);
+        setError('Failed to fetch parking slots. Please try again later.');
+        setLoading(false); // Set loading to false
       });
   }, []);
+
+  if (loading) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: 'center' }}>
+        <CircularProgress color="primary" />
+        <Typography variant="h6" component="p" sx={{ mt: 2 }}>
+          Loading parking slots...
+        </Typography>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Alert severity="error">{error}</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" color="primary" gutterBottom>
-        Booked Parking Lots
+        Parking Slot List
       </Typography>
 
       <Button
         component={Link}
-        to="/create-parking-lot"
+        to="/add-parking-slot"
         color="primary"
         variant="contained"
         sx={{ mb: 4 }}
       >
-        Add New Booking
+        Add New Parking Slot
       </Button>
 
-      {loading ? (
-        // Show a loading spinner while data is being fetched
-        <Box display="flex" justifyContent="center" mt={4}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Grid container spacing={3}>
-          {lots.length === 0 ? (
-            <Grid item xs={12}>
-              <Typography variant="h6" color="text.secondary">
-                No booked parking lots found!
-              </Typography>
-            </Grid>
-          ) : (
-            lots.map((lot, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" component="h2">
-                      Slot Number: {lot.slotNumber}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Customer Name: {lot.customerName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Vehicle Number: {lot.vehicleNumber}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Vehicle Type: {lot.vehicleType}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Booking Date: {lot.date}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Arrival Time: {lot.arrivalTime}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Total Rent: {lot.totalRent} Rupees
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View Details
-                    </Button>
-                    <Button size="small" color="error">
-                      Cancel Booking
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))
-          )}
-        </Grid>
-      )}
+      <Grid container spacing={4}>
+        {parkingSlots.map((slot, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <ParkingSlotCard slot={slot} /> {/* Render individual parking slot */}
+          </Grid>
+        ))}
+      </Grid>
     </Container>
   );
 }
 
-export default ShowBookedLots;
+export default ShowParkingList;

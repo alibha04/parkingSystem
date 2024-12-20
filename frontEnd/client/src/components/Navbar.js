@@ -50,7 +50,7 @@ const Navbar = () => {
             onClick={handleNotesClick}
             startIcon={<MenuBookIcon />} // Added icon here
           >
-            Notes
+            Details
           </Button>
           <Menu
             anchorEl={notesAnchorEl}
