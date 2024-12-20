@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/create", parkingLotController.createParkingLot);
 
 // Get all parking lots
-router.get("/all", parkingLotController.getAllParkingLots);
+router.get("/lot-list", parkingLotController.getAllParkingLots);
 
 // Get a single parking lot by ID
 router.get("/parkinglot/:id", parkingLotController.getParkingLotById);

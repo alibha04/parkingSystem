@@ -1,38 +1,4 @@
-// import express from 'express'; // Import Express
-// import mongoose from 'mongoose'; // Import Mongoose
-// import {
-//     getAllParkingLots,
-//     getParkingLotById,
-//     createParkingLot,
-//     updateParkingLot,
-//     deleteParkingLot,
-// } from './controllers/parkingLotController.js'; // Import Controller Functions
 
-// const app = express(); // Create an Express App
-// const PORT = 5000; // Define the Port Number
-
-// // Middleware to Parse JSON
-// app.use(express.json());
-
-// // Connect to MongoDB
-// mongoose.connect('mongodb://localhost:27017/parking-system', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
-//     .then(() => console.log('MongoDB connected successfully!'))
-//     .catch((err) => console.error('Error connecting to MongoDB:', err));
-
-// // Define Routes for Parking Lots
-// app.get('/parkinglots', getAllParkingLots);         // Get all parking lots
-// app.get('/parkinglots/:id', getParkingLotById);     // Get a specific parking lot by ID
-// app.post('/parkinglots', createParkingLot);         // Create a new parking lot
-// app.put('/parkinglots/:id', updateParkingLot);      // Update a parking lot by ID
-// app.delete('/parkinglots/:id', deleteParkingLot);   // Delete a parking lot by ID
-
-// // Start the Server
-// app.listen(PORT, () => {
-//     console.log(`Server is running at http://localhost:${PORT}`);
-// });
 
 
 import express from 'express';
@@ -77,23 +43,11 @@ app.get('/', (req, res) => {
 });
 
 // Fetch all parking lot details
-app.get('/parkinglots', (req, res) => {
+app.get('/api', (req, res) => {
   res.json(sampleData);
 });
 
-// Fetch parking lot details by ID
-app.get('/details/:id', (req, res) => {
-  const { id } = req.params;
 
-  // Find parking lot by ID in the dummy data
-  const parkingDetails = sampleData.find((lot) => lot.id === id);
-
-  if (parkingDetails) {
-    res.json(parkingDetails);
-  } else {
-    res.status(404).json({ message: `Parking ID ${id} not found` });
-  }
-});
 
 // Serve static files for React frontend
 app.use(express.static(path.join(__dirname, './client/build')));

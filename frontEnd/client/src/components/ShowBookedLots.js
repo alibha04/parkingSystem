@@ -19,7 +19,7 @@ function ShowParkingList() {
 
   useEffect(() => {
     axios
-      .get('https://3000-alibha04-parkingsystem-3m14pxpy2q5.ws-us117.gitpod.io/api/lots') // Replace with your parking slots API
+      .get('https://5000-alibha04-parkingsystem-3m14pxpy2q5.ws-us117.gitpod.io/api/lot-list') // Replace with your parking slots API
       .then((res) => {
         setParkingSlots(res.data); // Populate parking slots
         setLoading(false); // Set loading to false
