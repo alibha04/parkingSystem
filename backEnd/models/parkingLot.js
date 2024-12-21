@@ -1,32 +1,31 @@
-// Importing any required modules (if necessary)
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 // Define the schema for a parking lot
 const parkingLotSchema = new mongoose.Schema({
-    name: {
+    slotName: {  // Renamed to match the naming convention for consistency
         type: String,
-        required: true,
+        required: true
     },
     location: {
         type: String,
-        required: true,
+        required: true
     },
     capacity: {
         type: Number,
-        required: true,
+        required: true
     },
     occupiedSpots: {
         type: Number,
-        default: 0,
+        default: 0
     },
     hourlyRate: {
         type: Number,
-        required: true,
+        required: true
     },
     createdAt: {
         type: Date,
-        default: Date.now,
-    },
+        default: Date.now
+    }
 });
 
 // Add a method to check availability
@@ -55,4 +54,4 @@ parkingLotSchema.methods.leaveCar = function () {
 // Export the ParkingLot model
 const ParkingLot = mongoose.model('ParkingLot', parkingLotSchema);
 
-export default ParkingLot;
+module.exports = ParkingLot;

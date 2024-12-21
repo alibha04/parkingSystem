@@ -1,70 +1,48 @@
+const express = require('express');
+const connectDB = require('./config/db.js');  // Database connection
+const parkingLotRoutes = require('./routes/parkingLotRoute.js'); // Use parking lot routes
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config({ path: './config.env' });  // Load environment variables
 
-
-
-import express from 'express';
-import mongoose from 'mongoose';
-import connectDB from './config/db.js';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url'; // Required for ES module directory resolution
-
-// Configure environment variables
-dotenv.config({ path: './config.env' });
-
-// Connect to the database
+// Connect to MongoDB
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Middleware to parse JSON requests
 app.use(express.json());
 app.use(cors());
 
-// Resolve __dirname in ES module scope
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Load sample data dynamically
-let sampleData = [];
-import('./sample.json', { assert: { type: 'json' } })
-  .then((data) => {
-    sampleData = data.default; // Access the default export of the JSON file
-    console.log('Sample data loaded successfully.');
-  })
-  .catch((err) => {
-    console.error('Error loading sample data:', err);
-  });
-
-// Default route
-app.get('/', (req, res) => {
-  res.send('Welcome to the Parking System API!');
+// Basic route for home page
+app.get("/home", (req, res) => {
+    res.send("Welcome to the Parking System!");
 });
 
-// Fetch all parking lot details
-app.get('/api', (req, res) => {
-  res.json(sampleData);
-});
+// Use parking lot routes with prefix '/api'
+app.use('/api', parkingLotRoutes);
 
-
-
-// Serve static files for React frontend
+// Serve static files for React frontend (if any)
 app.use(express.static(path.join(__dirname, './client/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/build/index.html'), (err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
+
+// If React frontend is used, this will serve the React app
+app.get('*', function (_, res) {
+    res.sendFile(path.join(__dirname, './client/build/index.html'), function (err) {
+        if (err) {
+            res.status(500).send(err);
+        }
+    });
 });
 
 // Handle invalid routes
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found. Please check the URL.' });
+    res.status(404).json({ message: 'Route not found. Please check the URL.' });
 });
+
+// Define the port
+const PORT = process.env.PORT || 5000;
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });

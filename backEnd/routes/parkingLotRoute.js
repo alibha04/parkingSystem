@@ -1,20 +1,20 @@
-import express from 'express';
-import * as parkingLotController from '../controllers/parkingLotControllers.js'; // Correct import path
+const express = require('express');
+const parkingLotController = require('../controllers/parkingLotControllers'); // Adjusted import path
 const router = express.Router();
 
 // Create a new parking lot
-router.post("/create", parkingLotController.createParkingLot);
+router.post("/lots", parkingLotController.createParkingLot);
 
 // Get all parking lots
-router.get("/lot-list", parkingLotController.getAllParkingLots);
+router.get("/lots", parkingLotController.getAllParkingLots);
 
 // Get a single parking lot by ID
-router.get("/parkinglot/:id", parkingLotController.getParkingLotById);
+router.get("/lots/:id", parkingLotController.getParkingLotById);
 
 // Update a parking lot by ID
-router.put("/parkinglot/:id", parkingLotController.updateParkingLot);
+router.put("/lots/:id", parkingLotController.updateParkingLot);
 
 // Delete a parking lot by ID
-router.delete("/parkinglot/:id", parkingLotController.deleteParkingLot);
+router.delete("/lots/:id", parkingLotController.deleteParkingLot);
 
-export default router;
+module.exports = router;
