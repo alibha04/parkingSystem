@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom'; // No need to import Router an
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
 import retroTheme from './theme/retroTheme' ;
-import ShowBookedLots from './components/ShowBookedLots'; 
 import CreateSlot from './components/CreateSlot';
 import ConfirmedSlot from './components/ConfirmedSlot';
 
@@ -37,7 +36,6 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/createSlotList" element={<CreateSlot />} />
             <Route path="/confirmedSlot" element={<ConfirmedSlot />} />
-            <Route path="/ShowBookedLots" element={<ShowBookedLots />} />
             {/* Uncomment and add these routes as needed */}
             {/* <Route path="/about-us" element={<AboutUs />} /> */}
             {/* <Route path="/show-rooms" element={<ShowRooms />} /> */}
