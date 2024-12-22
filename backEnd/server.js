@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config({ path: './config.env' });  // Load environment variables
 
+
 // Connect to MongoDB
 connectDB();
 
