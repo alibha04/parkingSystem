@@ -15,9 +15,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
-import SearchIcon from '@mui/icons-material/Search';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import DownloadIcon from '@mui/icons-material/Download';
 
 const Navbar = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -46,25 +44,8 @@ const Navbar = () => {
             to="/"
             startIcon={<HomeIcon />}
           >
-            Home
           </Button>
-          <Button
-            color="primary"
-            component={RouterLink}
-            to="/search"
-            startIcon={<SearchIcon />}
-          >
-            Search Slots
-          </Button>
-          <Button
-            color="primary"
-            component={RouterLink}
-            to="/export"
-            startIcon={<DownloadIcon />}
-          >
-            Download Slot List
-          </Button>
-
+          
 
           <IconButton
             color="primary"
@@ -98,7 +79,7 @@ const Navbar = () => {
                     open={Boolean(menuAnchorEl)}
                     onClose={handleMenuClose}
                 >
-                    <MenuItem component={RouterLink} to="/add" onClick={handleMenuClose}>
+                    <MenuItem component={RouterLink} to="/CreateSlot" onClick={handleMenuClose}>
                         Create Lot
                     </MenuItem>
                     <MenuItem component={RouterLink} to="/list" onClick={handleMenuClose}>

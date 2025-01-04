@@ -42,7 +42,6 @@
 //     setSlot((prevSlot) => {
 //       const updatedSlot = { ...prevSlot, [name]: value };
 
-//       // Calculate total rent dynamically when duration changes
 //       if (name === 'duration') {
 //         const hours = parseInt(value, 10) || 0;
 //         updatedSlot.totalRent = hours * prevSlot.rentPerHour;
@@ -51,7 +50,7 @@
 //     });
 //   };
 
-//   const onSubmit = (e) => {
+//   const onSubmit = async (e) => {
 //     e.preventDefault();
 
 //     if (
@@ -67,30 +66,20 @@
 //       return;
 //     }
 
-//     const apiUrl = 'http://localhost:5000/api/create'; // Adjust API endpoint as needed
+//     const apiUrl = 'http://localhost:5000/api/lots'; // Ensure this URL is correct.
 
+//     try {
+//       console.log('Submitting slot:', slot); // Debugging: log slot data
+//       const response = await axios.post(apiUrl, slot);
 
-//     console.log(slot);
-// axios
-//   .post(apiUrl, slot)
-//   .then((response) => {
-//     console.log(response.data); // Log response for debugging
-//   })
-//   .catch((err) => {
-//     console.error('Error in creating slot:', err);
-//   });
+//       console.log('API Response:', response.data); // Debugging: log API response
+//       enqueueSnackbar('Slot created successfully!', { variant: 'success' });
 
-
-//     axios
-//       .post(apiUrl, slot)
-//       .then((response) => {
-//         enqueueSnackbar('Slot created successfully!', { variant: 'success' });
-//         navigate('/confirmed'); // Redirect to confirmed page after submission
-//       })
-//       .catch((err) => {
-//         console.error('Error in creating slot:', err);
-//         enqueueSnackbar('Something went wrong, try again!', { variant: 'error' });
-//       });
+//       navigate('/ConfirmedSlot', { state: { slot: response.data } }); // Navigate to ConfirmedSlot
+//     } catch (error) {
+//       console.error('Error in creating slot:', error); // Log any errors
+//       enqueueSnackbar('Something went wrong, try again!', { variant: 'error' });
+//     }
 //   };
 
 //   return (
@@ -203,7 +192,6 @@
 //           value={slot.date}
 //           onChange={onChange}
 //           type="date"
-          
 //           InputLabelProps={{
 //             shrink: true,
 //           }}
@@ -220,7 +208,7 @@
 //             variant="contained"
 //             color="secondary"
 //             fullWidth
-//             onClick={() => navigate('/ConfirmedSlot.js')}
+//             onClick={() => navigate('/ConfirmedSlot')}
 //           >
 //             Cancel
 //           </Button>
@@ -231,7 +219,6 @@
 // };
 
 // export default CreateSlot;
-
 
 
 
@@ -268,17 +255,22 @@ const CreateSlot = () => {
     date: '',
   });
 
+  // Populate slot state for editing
   useEffect(() => {
     if (state?.slot) {
-      setSlot(state.slot);
+      setSlot((prevSlot) => ({
+        ...prevSlot,
+        ...state.slot,
+      }));
     }
   }, [state]);
 
-  const onChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setSlot((prevSlot) => {
       const updatedSlot = { ...prevSlot, [name]: value };
 
+      // Calculate total rent dynamically
       if (name === 'duration') {
         const hours = parseInt(value, 10) || 0;
         updatedSlot.totalRent = hours * prevSlot.rentPerHour;
@@ -287,9 +279,10 @@ const CreateSlot = () => {
     });
   };
 
-  const onSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic validation for required fields
     if (
       !slot.customerName ||
       !slot.phoneNumber ||
@@ -303,19 +296,26 @@ const CreateSlot = () => {
       return;
     }
 
-    const apiUrl = 'http://localhost:5000/api/lots'; // Ensure this URL is correct.
+    const apiUrl = 'http://localhost:5000/api/lots';
 
     try {
-      console.log('Submitting slot:', slot); // Debugging: log slot data
-      const response = await axios.post(apiUrl, slot);
+      const response = state?.slot
+        ? await axios.put(`${apiUrl}/${slot.slotNumber}`, slot) // Edit existing slot
+        : await axios.post(apiUrl, slot); // Create new slot
 
-      console.log('API Response:', response.data); // Debugging: log API response
-      enqueueSnackbar('Slot created successfully!', { variant: 'success' });
+      enqueueSnackbar(
+        state?.slot
+          ? 'Slot updated successfully!'
+          : 'Slot created successfully!',
+        { variant: 'success' }
+      );
 
-      navigate('/ConfirmedSlot', { state: { slot: response.data } }); // Navigate to ConfirmedSlot
+      navigate('/ConfirmedSlot', { state: { slot: response.data } });
     } catch (error) {
-      console.error('Error in creating slot:', error); // Log any errors
-      enqueueSnackbar('Something went wrong, try again!', { variant: 'error' });
+      console.error('Error in creating/updating slot:', error);
+      enqueueSnackbar('Something went wrong, please try again.', {
+        variant: 'error',
+      });
     }
   };
 
@@ -345,13 +345,13 @@ const CreateSlot = () => {
         </Link>
       </div>
 
-      <form noValidate onSubmit={onSubmit}>
+      <form noValidate onSubmit={handleSubmit}>
         <TextField
           fullWidth
           label="Customer Name"
           name="customerName"
           value={slot.customerName}
-          onChange={onChange}
+          onChange={handleChange}
           variant="outlined"
           margin="normal"
         />
@@ -361,7 +361,7 @@ const CreateSlot = () => {
           label="Phone Number"
           name="phoneNumber"
           value={slot.phoneNumber}
-          onChange={onChange}
+          onChange={handleChange}
           variant="outlined"
           margin="normal"
         />
@@ -371,7 +371,7 @@ const CreateSlot = () => {
           label="Vehicle Number"
           name="vehicleNumber"
           value={slot.vehicleNumber}
-          onChange={onChange}
+          onChange={handleChange}
           variant="outlined"
           margin="normal"
         />
@@ -381,7 +381,7 @@ const CreateSlot = () => {
           <Select
             name="vehicleType"
             value={slot.vehicleType}
-            onChange={onChange}
+            onChange={handleChange}
           >
             <MenuItem value="" disabled>
               Select Vehicle Type
@@ -398,7 +398,7 @@ const CreateSlot = () => {
           label="Duration (in hours)"
           name="duration"
           value={slot.duration}
-          onChange={onChange}
+          onChange={handleChange}
           type="number"
           variant="outlined"
           margin="normal"
@@ -413,7 +413,7 @@ const CreateSlot = () => {
           label="Arrival Time"
           name="arrivalTime"
           value={slot.arrivalTime}
-          onChange={onChange}
+          onChange={handleChange}
           type="time"
           InputLabelProps={{
             shrink: true,
@@ -427,7 +427,7 @@ const CreateSlot = () => {
           label="Booking Date"
           name="date"
           value={slot.date}
-          onChange={onChange}
+          onChange={handleChange}
           type="date"
           InputLabelProps={{
             shrink: true,
