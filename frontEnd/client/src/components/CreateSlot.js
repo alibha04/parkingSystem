@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   TextField,
@@ -9,47 +9,47 @@ import {
   FormControl,
   InputLabel,
   Select,
+  useTheme,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
 
 const CreateSlot = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const location = useLocation();
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
   const { enqueueSnackbar } = useSnackbar();
 
   const [slot, setSlot] = useState({
     slotNumber: Math.floor(Math.random() * 1000) + 1,
     vehicleType: '',
-    duration: '',
-    rentPerHour: 50,
-    totalRent: 0,
     customerName: '',
     phoneNumber: '',
     vehicleNumber: '',
+    duration: '',
+    rentPerHour: 50,
+    totalRent: 0,
     arrivalTime: '',
-    date: '',
+    bookingDate: '',
   });
 
-  // Populate slot state for editing
+  const [isEdit, setIsEdit] = useState(false);
+
   useEffect(() => {
-    if (state?.slot) {
-      setSlot((prevSlot) => ({
-        ...prevSlot,
-        ...state.slot,
-      }));
+    if (location.state?.slot) {
+      setSlot(location.state.slot);
+      setIsEdit(true);
     }
-  }, [state]);
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSlot((prevSlot) => {
-      const updatedSlot = { ...prevSlot, [name]: value };
+    setSlot((prev) => {
+      const updatedSlot = { ...prev, [name]: value };
 
-      // Calculate total rent dynamically
       if (name === 'duration') {
-        const hours = parseInt(value, 10) || 0;
-        updatedSlot.totalRent = hours * prevSlot.rentPerHour;
+        updatedSlot.totalRent = (parseInt(value, 10) || 0) * prev.rentPerHour;
       }
       return updatedSlot;
     });
@@ -58,40 +58,26 @@ const CreateSlot = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation for required fields
-    if (
-      !slot.customerName ||
-      !slot.phoneNumber ||
-      !slot.vehicleNumber ||
-      !slot.vehicleType ||
-      !slot.duration
-    ) {
-      enqueueSnackbar('Please fill out all fields before submitting.', {
-        variant: 'warning',
-      });
+    if (!slot.customerName || !slot.phoneNumber || !slot.vehicleNumber || !slot.vehicleType) {
+      enqueueSnackbar('All fields are required.', { variant: 'warning' });
       return;
     }
 
-    const apiUrl = 'http://localhost:3000/api/lots';
+    const apiUrl = 'http://localhost:3000/api/slots';
 
     try {
-      const response = state?.slot
-        ? await axios.put(`${apiUrl}/${slot.slotNumber}`, slot) // Edit existing slot
-        : await axios.post(apiUrl, slot); // Create new slot
+      if (isEdit) {
+        await axios.put(`${apiUrl}/${slot.slotNumber}`, slot);
+        enqueueSnackbar('Slot updated successfully!', { variant: 'success' });
+      } else {
+        await axios.post(apiUrl, slot);
+        enqueueSnackbar('Slot created successfully!', { variant: 'success' });
+      }
 
-      enqueueSnackbar(
-        state?.slot
-          ? 'Slot updated successfully!'
-          : 'Slot created successfully!',
-        { variant: 'success' }
-      );
-
-      navigate('/ConfirmedSlot', { state: { slot: response.data } });
+      navigate('/slots');
     } catch (error) {
-      console.error('Error in creating/updating slot:', error);
-      enqueueSnackbar('Something went wrong, please try again.', {
-        variant: 'error',
-      });
+      console.error('Error in slot submission:', error);
+      enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
     }
   };
 
@@ -102,21 +88,17 @@ const CreateSlot = () => {
         mx: 'auto',
         p: 3,
         mt: 5,
-        bgcolor: '#f9f9f9',
+        bgcolor: isDarkMode ? theme.palette.background.paper : '#f9f9f9',
+        color: isDarkMode ? theme.palette.text.primary : 'inherit',
         borderRadius: 2,
+        boxShadow: isDarkMode ? '0 4px 10px rgba(0, 0, 0, 0.3)' : '0 4px 10px rgba(0, 0, 0, 0.1)',
       }}
     >
-      <Typography variant="h4" align="center" color="#00e5ff"gutterBottom>
-        {state?.slot ? 'Edit Parking Slot' : 'Create Parking Slot'}
+      <Typography variant="h4" align="center" gutterBottom>
+        {isEdit ? 'Edit Parking Slot' : 'Create Parking Slot'}
       </Typography>
-      <Typography variant="body1" align="center" color="textSecondary" gutterBottom>
-        {state?.slot
-          ? 'Update an existing parking slot'
-          : 'Create a new parking slot record'}
-      </Typography>
-  
 
-      <form noValidate onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           label="Customer Name"
@@ -147,12 +129,13 @@ const CreateSlot = () => {
           margin="normal"
         />
 
-        <FormControl fullWidth sx={{ mt: 2 }}>
+        <FormControl fullWidth margin="normal">
           <InputLabel>Vehicle Type</InputLabel>
           <Select
             name="vehicleType"
             value={slot.vehicleType}
             onChange={handleChange}
+            variant="outlined"
           >
             <MenuItem value="" disabled>
               Select Vehicle Type
@@ -160,7 +143,6 @@ const CreateSlot = () => {
             <MenuItem value="Car">Car</MenuItem>
             <MenuItem value="Bike">Bike</MenuItem>
             <MenuItem value="Truck">Truck</MenuItem>
-            <MenuItem value="EV Charging">EV Charging</MenuItem>
           </Select>
         </FormControl>
 
@@ -168,9 +150,9 @@ const CreateSlot = () => {
           fullWidth
           label="Duration (in hours)"
           name="duration"
+          type="number"
           value={slot.duration}
           onChange={handleChange}
-          type="number"
           variant="outlined"
           margin="normal"
         />
@@ -183,12 +165,10 @@ const CreateSlot = () => {
           fullWidth
           label="Arrival Time"
           name="arrivalTime"
+          type="time"
           value={slot.arrivalTime}
           onChange={handleChange}
-          type="time"
-          pattern={{
-            shrink: true,
-          }}
+          pattern={{ shrink: true }}
           variant="outlined"
           margin="normal"
         />
@@ -196,28 +176,20 @@ const CreateSlot = () => {
         <TextField
           fullWidth
           label="Booking Date"
-          name="date"
-          value={slot.date}
-          onChange={handleChange}
+          name="bookingDate"
           type="date"
-          pattern={{
-            shrink: true,
-          }}
+          value={slot.bookingDate}
+          onChange={handleChange}
+          pattern={{ shrink: true }}
           variant="outlined"
           margin="normal"
         />
 
         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            {state?.slot ? 'Update Slot' : 'Create Slot'}
+            {isEdit ? 'Update Slot' : 'Create Slot'}
           </Button>
-          <Button
-            type="button"
-            variant="contained"
-            color="secondary"
-            fullWidth
-            onClick={() => navigate('/ConfirmedSlot')}
-          >
+          <Button type="button" variant="contained" color="secondary" fullWidth onClick={() => navigate('/slots')}>
             Cancel
           </Button>
         </Box>
