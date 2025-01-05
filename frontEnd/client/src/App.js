@@ -1,52 +1,3 @@
-// import React from 'react';
-// import { Route, Routes } from 'react-router-dom'; // No need to import Router anymore
-// import { ThemeProvider } from '@mui/material/styles';
-// import { CssBaseline, Box } from '@mui/material';
-// import retroTheme from './theme/retroTheme' ;
-// import CreateSlot from './components/CreateSlot';
-// import ConfirmedSlot from './components/ConfirmedSlot';
-
-
-// import Navbar from './components/Navbar';
-// import Footer from './components/Footer';
-// import HomePage from './components/HomePage';
-
-// const App = () => {
-//   return (
-//     <ThemeProvider theme={retroTheme}>
-//       <CssBaseline />
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           flexDirection: 'column',
-//           minHeight: '100vh',
-//         }}
-//       >
-//         <Navbar />
-
-//         <Box
-//           sx={{
-//             flex: 1,
-//             display: 'flex',
-//             alignItems: 'center',
-//             justifyContent: 'center',
-//           }}
-//         >
-//           <Routes>
-//             <Route path="/" element={<HomePage />} />
-//             <Route path="/createSlotList" element={<CreateSlot />} />
-//             <Route path="/confirmedSlot" element={<ConfirmedSlot />} />
-//           </Routes>
-//         </Box>
-
-//         <Footer />
-//       </Box>
-//     </ThemeProvider>
-//   );
-// };
-
-// export default App;
-
 // src/App.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -62,6 +13,7 @@ import SlotEdit from './components/UpdateSlot';  // Edit a slot
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ExportPage from './components/ExportPage';
+import SearchPage from './components/SearchSlot';
 
 const App = () => {
     return (
@@ -85,6 +37,7 @@ const App = () => {
                                 <Route path="/edit-slot/:id" element={<SlotEdit />} />
                                 <Route path="/slot-detail/:id" element={<SlotDetail />} />
                                 <Route path="/export" element={<ExportPage />} />
+                                <Route path="/search" element={<SearchPage />} />
                                 <Route path="*" element={<div>404 - Page Not Found</div>} />
                             </Routes>
                         </Container>

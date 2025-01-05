@@ -106,7 +106,7 @@ const CreateSlot = () => {
         borderRadius: 2,
       }}
     >
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant="h4" align="center" color="#00e5ff"gutterBottom>
         {state?.slot ? 'Edit Parking Slot' : 'Create Parking Slot'}
       </Typography>
       <Typography variant="body1" align="center" color="textSecondary" gutterBottom>

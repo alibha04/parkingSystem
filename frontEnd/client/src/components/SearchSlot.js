@@ -90,7 +90,7 @@ const SearchSlot = () => {
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto', p: 3, mt: 5, bgcolor: '#f9f9f9', borderRadius: 2 }}>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant="h4" align="center" color="#00e5ff" gutterBottom>
         Search Parking Slots
       </Typography>
       <Typography variant="body1" align="center" color="textSecondary" gutterBottom>
@@ -108,7 +108,7 @@ const SearchSlot = () => {
                 label="Search"
                 value={filters.searchTerm}
                 onChange={(e) => setFilters({ ...filters, searchTerm: e.target.value })}
-                InputProps={{
+                pattern={{
                   startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
                 }}
               />
