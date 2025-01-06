@@ -81,16 +81,19 @@ const CreateSlot = () => {
     }
   };
   axios
-  .post("https://parkingsystem-8xdu.onrender.com/api/lots", lots)
+  .post("https://parkingsystem-8xdu.onrender.com/api/lots", slot)
   .then(() => {
     setSlot({
-      Customer_Name: '',
-      Phone_Number: '',
-      Vehicle_Number: '',
-      Vehicle_Type: '',
-      Duration: '',
-      Arrival_Time: '',
-      Booking_Date: '',
+      slotNumber: Math.floor(Math.random() * 1000) + 1,
+      vehicleType: '',
+      customerName: '',
+      phoneNumber: '',
+      vehicleNumber: '',
+      duration: '',
+      rentPerHour: 50,
+      totalRent: 0,
+      arrivalTime: '',
+      bookingDate: '',
     });
     enqueueSnackbar('Slot added successfully!', { variant: 'success' });
     navigate('/SlotList');
