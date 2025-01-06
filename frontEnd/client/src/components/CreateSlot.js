@@ -81,7 +81,7 @@ const CreateSlot = () => {
     }
   };
   axios
-  .post("api/lots", lots)
+  .post("https://parkingsystem-8xdu.onrender.com/api/lots", lots)
   .then(() => {
     setSlot({
       Customer_Name: '',
