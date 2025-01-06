@@ -63,7 +63,7 @@ const CreateSlot = () => {
       return;
     }
 
-    const apiUrl = 'http://localhost:3000/api/slots';
+    const apiUrl = 'http://localhost:3000/api/lots';
 
     try {
       if (isEdit) {
@@ -80,6 +80,26 @@ const CreateSlot = () => {
       enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
     }
   };
+  axios
+  .post("api/lots", lots)
+  .then(() => {
+    setSlot({
+      Customer_Name: '',
+      Phone_Number: '',
+      Vehicle_Number: '',
+      Vehicle_Type: '',
+      Duration: '',
+      Arrival_Time: '',
+      Booking_Date: '',
+    });
+    enqueueSnackbar('Slot added successfully!', { variant: 'success' });
+    navigate('/SlotList');
+  })
+  .catch((err) => {
+    console.error('Error in creating slot:', err);
+    enqueueSnackbar('Something went wrong, try again!', { variant: 'error' });
+  });
+
 
   return (
     <Box
