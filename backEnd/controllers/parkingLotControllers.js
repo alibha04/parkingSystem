@@ -1,93 +1,96 @@
-const ParkingLot = require('../models/parkingLot'); // Adjust the path as needed
+const ParkingLot = require('../models/parkingLot'); // Your ParkingLot model
 
-/**
- * Create a new parking lot
- */
-exports.createParkingLot = async (req, res) => {
+// Create a new parking slot
+exports.createSlot = async (req, res) => {
     try {
-        let newParkingLot = new ParkingLot({
-            slotNumber: req.body.slotNumber,
-            type: req.body.type,
-            duration: req.body.duration,
-            rentPerHour: req.body.rentPerHour,
-            totalRent: req.body.totalRent,
-            status: req.body.status,
-            arrivalTime: req.body.arrivalTime,
-            date: req.body.date,
-            customerName: req.body.customerName,
-            phoneNumber: req.body.phoneNumber,
-            vehicleNumber: req.body.vehicleNumber,
-            vehicleType: req.body.vehicleType,
+        const { vehicleType, customerName, phoneNumber, vehicleNumber, duration, arrivalTime, bookingDate } = req.body;
+
+        const rentPerHour = 50; // Default rent per hour
+        const totalRent = (parseInt(duration, 10) || 0) * rentPerHour;
+
+        const newSlot = new ParkingLot({
+            customerName,
+            phoneNumber,
+            vehicleNumber,
+            vehicleType,
+            duration,
+            rentPerHour,
+            totalRent,
+            arrivalTime: arrivalTime || null,
+            bookingDate: bookingDate ? new Date(bookingDate) : null,
         });
 
-        newParkingLot = await newParkingLot.save(); // Save the new parking lot to the database
-        res.send(newParkingLot); // Send the saved parking lot as a response
+        const savedSlot = await newSlot.save();
+        res.status(201).json(savedSlot); // Return the newly created slot
     } catch (err) {
-        res.status(400).send(err.message); // Send an error response if something goes wrong
+        res.status(400).json({ error: err.message });
     }
 };
 
-/**
- * Get all parking lots
- */
-exports.getAllParkingLots = async (req, res) => {
+// Get all parking slots
+exports.getAllSlots = async (req, res) => {
     try {
-        const allParkingLots = await ParkingLot.find(); // Get all parking lots from the database
-        res.send(allParkingLots); // Send all parking lots as a response
+        const allSlots = await ParkingLot.find();
+        res.json(allSlots); // Return all parking slots
     } catch (err) {
-        res.status(400).send(err.message); // Send an error response if something goes wrong
+        res.status(400).json({ error: err.message });
     }
 };
 
-/**
- * Get a parking lot by ID
- */
-exports.getParkingLotById = async (req, res) => {
+// Get a parking slot by ID
+exports.getSlotById = async (req, res) => {
     try {
-        const parkingLotById = await ParkingLot.findById(req.params.id); // Find parking lot by ID
-        if (!parkingLotById) return res.status(404).send('Parking lot not found in database'); // If parking lot not found, return 404
-        res.send(parkingLotById); // Send the parking lot as a response
+        const slot = await ParkingLot.findById(req.params.id);
+        if (!slot) return res.status(404).json({ error: 'Slot not found' });
+        res.json(slot); // Return the slot by ID
     } catch (err) {
-        res.status(400).send(err.message); // Send an error response if something goes wrong
+        res.status(400).json({ error: err.message });
     }
 };
 
-/**
- * Update a parking lot by ID
- */
-exports.updateParkingLot = async (req, res) => {
+// Update a parking slot by ID
+exports.updateSlot = async (req, res) => {
     try {
-        const updatedParkingLot = await ParkingLot.findByIdAndUpdate(req.params.id, {
-            slotNumber: req.body.slotNumber,
-            type: req.body.type,
-            duration: req.body.duration,
-            rentPerHour: req.body.rentPerHour,
-            totalRent: req.body.totalRent,
-            status: req.body.status,
-            arrivalTime: req.body.arrivalTime,
-            date: req.body.date,
-            customerName: req.body.customerName,
-            phoneNumber: req.body.phoneNumber,
-            vehicleNumber: req.body.vehicleNumber,
-            vehicleType: req.body.vehicleType,
-        }, { new: true }); // Return the updated parking lot
+        const { id } = req.params;
 
-        if (!updatedParkingLot) return res.status(404).send('Parking lot not found in database'); // If parking lot not found, return 404
-        res.send(updatedParkingLot); // Send the updated parking lot as a response
+        const { vehicleType, customerName, phoneNumber, vehicleNumber, duration, arrivalTime, bookingDate } = req.body;
+
+        const rentPerHour = 50; // Default rent per hour
+        const totalRent = (parseInt(duration, 10) || 0) * rentPerHour;
+
+        const updatedSlot = await ParkingLot.findByIdAndUpdate(
+            id,
+            {
+                vehicleType,
+                customerName,
+                phoneNumber,
+                vehicleNumber,
+                duration,
+                rentPerHour,
+                totalRent,
+                arrivalTime,
+                bookingDate,
+            },
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedSlot) return res.status(404).json({ error: 'Slot not found' });
+        res.json(updatedSlot); // Return the updated slot
     } catch (err) {
-        res.status(400).send(err.message); // Send an error response if something goes wrong
+        res.status(400).json({ error: err.message });
     }
 };
 
-/**
- * Delete a parking lot by ID
- */
-exports.deleteParkingLot = async (req, res) => {
+// Delete a parking slot by ID
+exports.deleteSlot = async (req, res) => {
     try {
-        const parkingLotById = await ParkingLot.findByIdAndDelete(req.params.id); // Find parking lot by ID and delete it
-        if (!parkingLotById) return res.status(404).send('Parking lot not found in database'); // If parking lot not found, return 404
-        res.send("Parking lot deleted successfully"); // Send success message
+        const { id } = req.params;
+        const deletedSlot = await ParkingLot.findByIdAndDelete(id);
+
+        if (!deletedSlot) return res.status(404).json({ error: 'Slot not found' });
+
+        res.json({ message: 'Slot deleted successfully' }); // Return success message
     } catch (err) {
-        res.status(400).send(err.message); // Send an error response if something goes wrong
+        res.status(400).json({ error: err.message });
     }
 };
