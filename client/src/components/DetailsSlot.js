@@ -40,12 +40,12 @@ const DetailsSlot = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/slots/${id}`)
+      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`)
       .then((res) => {
         setSlot(res.data);
       })
       .catch((err) => {
-        console.error('Error fetching slot details:', err.response || err.message || err);
+        console.error('Error fetching slot details:', err);
         enqueueSnackbar('Error fetching slot details!', { variant: 'error' });
       });
   }, [id, enqueueSnackbar]);
@@ -56,10 +56,10 @@ const DetailsSlot = () => {
 
   const handleDeleteConfirm = () => {
     axios
-      .delete(`http://localhost:5000/api/slots/${id}`)
+      .delete(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`)
       .then(() => {
         enqueueSnackbar('Parking slot deleted successfully!', { variant: 'success' });
-        navigate('/slots');  // Redirect to the slots list page
+        navigate('/slots');
       })
       .catch((err) => {
         console.error('Error deleting parking slot:', err);
@@ -83,25 +83,25 @@ const DetailsSlot = () => {
                 height="300"
                 image={
                   slot.imageUrl ||
-                  'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg'  // Default image
+                  'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg'
                 }
-                alt={slot.slotName || 'Default Slot Image'}
+                alt={slot.customerName || 'Default Slot Image'}
               />
             </Card>
           </Grid>
           <Grid item xs={12} md={8}>
             <Typography variant="h4" component="h1" gutterBottom>
-              {slot.slotName || 'Unknown Slot'}
+              Slot #{slot.slotNumber || 'N/A'}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Box display="flex" flexDirection="column">
-              <Typography variant="body1" paragraph>
-                {slot.description || 'No description provided.'}
-              </Typography>
-              <Typography variant="body1">Slot ID: {slot._id}</Typography>
-              <Typography variant="body1">Vehicle Number: {slot.vehicleNumber || 'No vehicle assigned'}</Typography>
-              <Typography variant="body1">Status: {slot.status || 'Available'}</Typography>
-              <Typography variant="body1">Booked By: {slot.customerName || 'N/A'}</Typography>
+              <Typography variant="body1">Vehicle Type: {slot.vehicleType || 'N/A'}</Typography>
+              <Typography variant="body1">Customer Name: {slot.customerName || 'N/A'}</Typography>
+              <Typography variant="body1">Phone Number: {slot.phoneNumber || 'N/A'}</Typography>
+              <Typography variant="body1">Vehicle Number: {slot.vehicleNumber || 'N/A'}</Typography>
+              <Typography variant="body1">Duration: {slot.duration || 'N/A'} hours</Typography>
+              <Typography variant="body1">Total Rent: {slot.totalRent || 0} Rupees</Typography>
+              <Typography variant="body1">Arrival Time: {slot.arrivalTime || 'N/A'}</Typography>
               <Typography variant="body1">Booking Date: {slot.bookingDate || 'N/A'}</Typography>
             </Box>
           </Grid>
@@ -119,7 +119,7 @@ const DetailsSlot = () => {
             <Button
               startIcon={<EditIcon />}
               component={RouterLink}
-              to={`/editSlot/${slot._id}`}  // Route to edit the slot
+              to={`/editSlot/${slot._id}`}
               variant="contained"
               color="primary"
               sx={{ mr: 1 }}
