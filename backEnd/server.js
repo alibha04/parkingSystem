@@ -24,11 +24,11 @@ app.get("/home", (req, res) => {
 app.use('/api', parkingLotRoutes);
 
 // Serve static files for React frontend (if any)
-app.use(express.static(path.join(__dirname, './client/build')));
+app.use(express.static(path.join(__dirname, '../frontEnd/client/build')));
 
 // If React frontend is used, this will serve the React app
 app.get('*', function (_, res) {
-    res.sendFile(path.join(__dirname, './client/build/index.html'), function (err) {
+    res.sendFile(path.join(__dirname, '../frontEnd/client/build/index.html'), function (err) {
         if (err) {
             res.status(500).send(err);
         }
