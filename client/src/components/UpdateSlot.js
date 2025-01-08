@@ -26,7 +26,7 @@ function UpdateSlot() {
 
   useEffect(() => {
     axios
-      .get(`https://parkingsystemapi.onrender.com/api/slots/${slotNumber}`)
+      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${slotNumber}`)
       .then((res) => {
         setSlot(res.data);
       })
@@ -44,7 +44,7 @@ function UpdateSlot() {
     e.preventDefault();
 
     axios
-      .put(`https://parkingsystemapi.onrender.com/api/slots/${slotNumber}`, slot)
+      .put(`https://parkingsystem-8xdu.onrender.com/api/lots/${slotNumber}`, slot)
       .then(() => {
         enqueueSnackbar("Slot updated successfully!", { variant: "success" });
         navigate(`/slot-detail/${slotNumber}`);
