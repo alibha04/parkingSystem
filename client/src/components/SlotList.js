@@ -11,7 +11,7 @@ function SlotList() {
 
   useEffect(() => {
     axios
-      .get('https://5000-alibha04-parkingsystem-59366kqbbw9.ws-us117.gitpod.io/api/lots') // Your slots API URL
+      .get('https://parkingsystem-8xdu.onrender.com/api/lots') // Your slots API URL
       .then((res) => {
         console.log('Fetched slots:', res.data);
         setSlots(res.data);
