@@ -18,14 +18,11 @@ const SlotCard = ({ slot }) => {
         },
       }}
     >
-      <Link to={`/slot-detail/${slot.slotNumber}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link to={`/slot-detail/${slot._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         <CardMedia
           component="img"
           height="200"
-          image={
-            slot.imageUrl ||
-            'https://via.placeholder.com/200?text=Parking+Slot+Image'
-          }
+          image={slot.imageUrl || 'https://via.placeholder.com/200?text=Parking+Slot+Image'}
           alt={`Slot Number: ${slot.slotNumber}`}
           sx={{ objectFit: 'cover', width: '100%' }}
         />
@@ -55,7 +52,7 @@ const SlotCard = ({ slot }) => {
       <Box sx={{ p: 2, mt: 'auto' }}>
         <Button
           component={Link}
-          to={`/slot-detail/${slot.slotNumber}`}
+          to={`/slot-detail/${slot._id}`} // Updated to use `_id`
           variant="contained"
           color="primary"
           size="small"

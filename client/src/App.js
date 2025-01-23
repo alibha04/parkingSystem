@@ -8,12 +8,13 @@ import { CssBaseline, Box, Container } from '@mui/material';
 import HomePage from './components/HomePage';
 import SlotList from './components/SlotList';  // List of slots
 import SlotDetail from './components/DetailsSlot';  // Detail of a slot
-import SlotAdd from './components/CreateSlot';  // Add a new slot
+import CreateSlot from './components/CreateSlot';  // Add a new slot
 import SlotEdit from './components/UpdateSlot';  // Edit a slot
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ExportPage from './components/ExportPage';
 import SearchPage from './components/SearchSlot';
+
 
 const App = () => {
     return (
@@ -33,7 +34,7 @@ const App = () => {
                             <Routes>
                                 <Route exact path="/" element={<HomePage />} />
                                 <Route path="/slots" element={<SlotList />} />
-                                <Route path="/add-slot" element={<SlotAdd />} />
+                                <Route path="/add-slot" element={<CreateSlot />} />
                                 <Route path="/edit-slot/:id" element={<SlotEdit />} />
                                 <Route path="/slot-detail/:id" element={<SlotDetail />} />
                                 <Route path="/export" element={<ExportPage />} />

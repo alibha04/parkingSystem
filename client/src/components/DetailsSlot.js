@@ -40,15 +40,16 @@ const DetailsSlot = () => {
 
   useEffect(() => {
     axios
-      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`)
+      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`) // Use correct API
       .then((res) => {
         setSlot(res.data);
+        console.log('slot details', res.data);
       })
-      .catch((err) => {
-        console.error('Error fetching slot details:', err);
+      .catch((error) => {
+        console.error('Error fetching slot details:', error.message);
         enqueueSnackbar('Error fetching slot details!', { variant: 'error' });
       });
-  }, [id, enqueueSnackbar]);
+}, [id, enqueueSnackbar]);
 
   const onDeleteClick = () => {
     setOpenDialog(true);
@@ -91,7 +92,7 @@ const DetailsSlot = () => {
           </Grid>
           <Grid item xs={12} md={8}>
             <Typography variant="h4" component="h1" gutterBottom>
-              Slot #{slot.slotNumber || 'N/A'}
+              Slot No: {slot.slotNumber || 'N/A'}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Box display="flex" flexDirection="column">
@@ -119,7 +120,7 @@ const DetailsSlot = () => {
             <Button
               startIcon={<EditIcon />}
               component={RouterLink}
-              to={`/editSlot/${slot._id}`}
+              to={`/edit-slot/${slot._id}`}
               variant="contained"
               color="primary"
               sx={{ mr: 1 }}
