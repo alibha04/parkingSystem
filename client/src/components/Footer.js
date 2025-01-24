@@ -6,12 +6,14 @@ const Footer = () => (
   <Box 
     component="footer" 
     sx={{
+      position: 'fixed', // Fixed position
+      bottom: 0,
       bgcolor: 'background.paper',
       color: 'text.secondary',
       py: 4,
       width: '100%',
       textAlign: 'center',
-      maxHeight:'100px'
+      maxHeight:'100px',
       borderTop: `1px solid ${theme => theme.palette.primary.main}`, // Optional: add a top border
     }}
   >

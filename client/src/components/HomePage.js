@@ -187,6 +187,18 @@ const ParkingHomePage = () => {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4}>
+          <Button 
+          component={Link} to="/qrcodes" 
+          variant="contained" 
+          size="large" 
+          startIcon={<DownloadIcon />} 
+          fullWidth sx={{ py: 2 }}>
+            QR Codes
+          </Button>
+        </Grid>
+
+        
+        <Grid item xs={12} sm={6} md={4}>
           <Button
             component={Link}
             to="/export"
@@ -199,7 +211,9 @@ const ParkingHomePage = () => {
             Download Parking Slots List
           </Button>
         </Grid>
-      </Grid>
+ </Grid>  
+        
+
     </Container>
   );
 };

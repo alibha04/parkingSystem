@@ -14,6 +14,8 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ExportPage from './components/ExportPage';
 import SearchPage from './components/SearchSlot';
+import QRCodePage from "./QRCodePage"; // Import QR Code page
+
 
 
 const App = () => {
@@ -39,6 +41,7 @@ const App = () => {
                                 <Route path="/slot-detail/:id" element={<SlotDetail />} />
                                 <Route path="/export" element={<ExportPage />} />
                                 <Route path="/search" element={<SearchPage />} />
+                                <Route path="/qrcodes" element={<QRCodePage />} /> 
                                 <Route path="*" element={<div>404 - Page Not Found</div>} />
                             </Routes>
                         </Container>
