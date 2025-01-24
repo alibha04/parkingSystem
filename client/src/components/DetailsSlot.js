@@ -84,7 +84,7 @@ const DetailsSlot = () => {
                 height="300"
                 image={
                   slot.imageUrl ||
-                  'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg'
+                  'https://images.stockcake.com/public/0/6/2/062f7b18-b2ec-4fd7-b53d-71d1805af7d5_large/sunset-parking-lot-stockcake.jpg'
                 }
                 alt={slot.customerName || 'Default Slot Image'}
               />

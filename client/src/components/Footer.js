@@ -11,6 +11,7 @@ const Footer = () => (
       py: 4,
       width: '100%',
       textAlign: 'center',
+      maxHeight:'100px'
       borderTop: `1px solid ${theme => theme.palette.primary.main}`, // Optional: add a top border
     }}
   >

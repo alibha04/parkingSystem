@@ -22,7 +22,7 @@ const SlotCard = ({ slot }) => {
         <CardMedia
           component="img"
           height="200"
-          image={slot.imageUrl || 'https://via.placeholder.com/200?text=Parking+Slot+Image'}
+          image={slot.imageUrl || 'https://as1.ftcdn.net/v2/jpg/07/11/03/64/1000_F_711036401_SQ9QT9X3M7ljOGvH0qMxLwSgmjgTkLy9.jpg'}
           alt={`Slot Number: ${slot.slotNumber}`}
           sx={{ objectFit: 'cover', width: '100%' }}
         />
