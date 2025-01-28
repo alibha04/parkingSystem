@@ -14,7 +14,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import ExportPage from './components/ExportPage';
 import SearchPage from './components/SearchSlot';
-import QRCodePage from "./QRCodePage"; // Import QR Code page
+import QRCodePage from "./components/QRCodePage"; // Import QR Code page
 
 
 
