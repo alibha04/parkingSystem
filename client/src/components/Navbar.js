@@ -79,20 +79,17 @@ const Navbar = () => {
                     open={Boolean(menuAnchorEl)}
                     onClose={handleMenuClose}
                 >
-                    <MenuItem component={RouterLink} to="/CreateSlot" onClick={handleMenuClose}>
+                    <MenuItem component={RouterLink} to="/CreateSlot.js" onClick={handleMenuClose}>
                         Create Lot
                     </MenuItem>
-                    <MenuItem component={RouterLink} to="/list" onClick={handleMenuClose}>
+                    <MenuItem component={RouterLink} to="/SlotList.js" onClick={handleMenuClose}>
                         Lot List
                     </MenuItem>
-                    <MenuItem component={RouterLink} to="/search" onClick={handleMenuClose}>
+                    <MenuItem component={RouterLink} to="/SearchSlot.js" onClick={handleMenuClose}>
                         Search Lot
                     </MenuItem>
-                    <MenuItem component={RouterLink} to="/export" onClick={handleMenuClose}>
-                        Download QR
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to="/about" onClick={handleMenuClose}>
-                        About
+                    <MenuItem component={RouterLink} to="/QRCodePage.js" onClick={handleMenuClose}>
+                        Download Token
                     </MenuItem>
                 </Menu>
 
