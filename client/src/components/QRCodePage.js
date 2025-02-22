@@ -17,7 +17,7 @@ import axios from 'axios';
 const QRCodePage = () => {
   const [parkingLots, setParkingLots] = useState([]);
   const [loading, setLoading] = useState(true);
-  const frontendBaseUrl = `${window.location.origin}/parking-lots`;
+  const frontendBaseUrl = `https://parkingsystem-8xdu.onrender.com/slot-detail`;
 
   // Fetch parking lot data with optimization (memoization to prevent unnecessary requests)
   const fetchParkingLots = useCallback(async () => {
