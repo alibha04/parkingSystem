@@ -8,7 +8,6 @@ import {
   Grid,
   Card,
   CardContent,
-  TextField,
   CircularProgress,
 } from "@mui/material";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
@@ -16,9 +15,8 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import DownloadIcon from "@mui/icons-material/Download";
 import GroupIcon from "@mui/icons-material/Group";
-import QrCodeIcon from "@mui/icons-material/QrCode";
+import QrCodeIcon from "@mui/icons-material/QrCode"; // QR Code icon
 import axios from "axios";
 import { motion } from "framer-motion";
 
@@ -33,7 +31,7 @@ const ParkingHomePage = () => {
 
   useEffect(() => {
     axios
-      .get("https://parkingsystem-8xdu.onrender.com/api/lots")
+      .get("https://parkingsystem-8xdu.onrender.com/api/lots") // Fetch slots data from backend
       .then((res) => {
         const slots = res.data;
 
@@ -43,7 +41,7 @@ const ParkingHomePage = () => {
 
         // Find the most recent booking
         const recentBooking = slots
-          .filter((slot) => slot.vehicleNumber)
+          .filter((slot) => slot.vehicleNumber) // Consider only booked slots
           .sort((a, b) => new Date(b.date) - new Date(a.date))[0]?.customerName;
 
         setStats({
@@ -94,60 +92,8 @@ const ParkingHomePage = () => {
         </Typography>
       </motion.div>
 
-      {/* Input Fields Section */}
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              label="Enter Address"
-              variant="outlined"
-              fullWidth
-              sx={{ backgroundColor: "#fff", borderRadius: 1 }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              label="Arriving Date"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 1,
-                "& input": { color: "#000" }, // Input text color for better visibility
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              label="Arriving Time"
-              type="time"
-              InputLabelProps={{ shrink: true }}
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 1,
-                "& input": { color: "#000" }, // Input text color for better visibility
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Button
-              variant="contained"
-              startIcon={<SearchIcon />}
-              fullWidth
-              sx={{ py: 2 }}
-            >
-              Check Availability
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-
       {/* Stats Cards */}
-      <Grid container spacing={4} mt={3} justifyContent="center">
+      <Grid container spacing={4} mt={6} justifyContent="center">
         <Grid item xs={12} md={4}>
           <Card sx={{ height: "100%", display: "flex", alignItems: "center" }}>
             <CardContent sx={{ textAlign: "center", width: "100%" }}>
@@ -175,10 +121,24 @@ const ParkingHomePage = () => {
             </CardContent>
           </Card>
         </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Card sx={{ height: "100%", display: "flex", alignItems: "center" }}>
+            <CardContent sx={{ textAlign: "center", width: "100%" }}>
+              <AccessTimeIcon color="primary" sx={{ fontSize: 40, mb: 2 }} />
+              <Typography variant="h4" gutterBottom>
+                Latest Booking
+              </Typography>
+              <Typography variant="subtitle1" color="text.secondary">
+                {stats.recentBooking}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
 
       {/* Features Section */}
-      <Box sx={{ textAlign: "center", mt: 4, mb: 4 }}>
+      <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography variant="h5" gutterBottom color="primary.light">
           Available Features
         </Typography>
@@ -186,27 +146,72 @@ const ParkingHomePage = () => {
 
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
-          <Button component={Link} to="/slots" variant="contained" startIcon={<LocalParkingIcon />} fullWidth>
+          <Button
+            component={Link}
+            to="/slots"
+            variant="contained"
+            size="large"
+            startIcon={<LocalParkingIcon />}
+            fullWidth
+            sx={{ py: 2 }}
+          >
             View Slots
           </Button>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button component={Link} to="/add-slot" variant="contained" startIcon={<AddIcon />} fullWidth>
+          <Button
+            component={Link}
+            to="/add-slot"
+            variant="contained"
+            size="large"
+            startIcon={<AddIcon />}
+            fullWidth
+            sx={{ py: 2 }}
+          >
             Add New Slot
           </Button>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button component={Link} to="/search" variant="contained" startIcon={<SearchIcon />} fullWidth>
+          <Button
+            component={Link}
+            to="/search"
+            variant="contained"
+            size="large"
+            startIcon={<SearchIcon />}
+            fullWidth
+            sx={{ py: 2 }}
+          >
             Search Slots
           </Button>
         </Grid>
+
+        {/* New QR Codes Button */}
         <Grid item xs={12} sm={6} md={4}>
-          <Button component={Link} to="/qrcodes" variant="contained" startIcon={<QrCodeIcon />} fullWidth>
+          <Button
+            component={Link}
+            to="/qrcodes"
+            variant="contained"
+            size="large"
+            startIcon={<QrCodeIcon />} // QR Code Icon
+            fullWidth
+            sx={{ py: 2 }}
+          >
             QR Codes
           </Button>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button component={Link} to="/export" variant="contained" startIcon={<DownloadIcon />} fullWidth>
+          <Button
+            component={Link}
+            to="/export"
+            variant="contained"
+            size="large"
+            startIcon={<GroupIcon />}
+            fullWidth
+            sx={{ py: 2 }}
+          >
             Download Parking Slots List
           </Button>
         </Grid>
