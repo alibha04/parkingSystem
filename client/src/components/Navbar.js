@@ -79,14 +79,14 @@ const Navbar = () => {
                     open={Boolean(menuAnchorEl)}
                     onClose={handleMenuClose}
                 >
-                    <MenuItem component={RouterLink} to="/CreateSlot.js" onClick={handleMenuClose}>
+                    <MenuItem component={RouterLink} to="/add-slot" onClick={handleMenuClose}>
                         Create Lot
                     </MenuItem>
                     <MenuItem component={RouterLink} to="/SlotList.js" onClick={handleMenuClose}>
                         Lot List
                     </MenuItem>
                     <MenuItem component={RouterLink} to="/SearchSlot.js" onClick={handleMenuClose}>
-                        Search Lot
+                        Search Lot 
                     </MenuItem>
                     <MenuItem component={RouterLink} to="/QRCodePage.js" onClick={handleMenuClose}>
                         Download Token
