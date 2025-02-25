@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Box, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+// Global set to track assigned slot numbers
+const assignedSlotNumbers = new Set();
+
+const getUniqueSlotNumber = () => {
+  let num;
+  do {
+    num = Math.floor(Math.random() * 1000) + 1;
+  } while (assignedSlotNumbers.has(num)); // Keep generating until unique
+  assignedSlotNumbers.add(num); // Store assigned number
+  return num;
+};
+
 const SlotCard = ({ slot }) => {
+  const [slotNumber, setSlotNumber] = useState(null);
+
+  useEffect(() => {
+    if (!slot?.slotNumber) {
+      setSlotNumber(getUniqueSlotNumber());
+    } else {
+      setSlotNumber(slot.slotNumber);
+    }
+  }, [slot]);
+
   return (
     <Card
       sx={{
@@ -23,12 +45,12 @@ const SlotCard = ({ slot }) => {
           component="img"
           height="200"
           image={slot.imageUrl || 'https://as1.ftcdn.net/v2/jpg/07/11/03/64/1000_F_711036401_SQ9QT9X3M7ljOGvH0qMxLwSgmjgTkLy9.jpg'}
-          alt={`Slot Number: ${slot.slotNumber}`}
+          alt={`Slot Number: ${slotNumber}`}
           sx={{ objectFit: 'cover', width: '100%' }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography variant="h6" component="div" color="primary" gutterBottom>
-            Slot Number: {slot.slotNumber || 'N/A'}
+            Slot Number: {slotNumber !== null ? slotNumber : 'N/A'}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             Status: {slot.status || 'Available'}
@@ -52,7 +74,7 @@ const SlotCard = ({ slot }) => {
       <Box sx={{ p: 2, mt: 'auto' }}>
         <Button
           component={Link}
-          to={`/slot-detail/${slot._id}`} // Updated to use `_id`
+          to={`/slot-detail/${slot._id}`}
           variant="contained"
           color="primary"
           size="small"

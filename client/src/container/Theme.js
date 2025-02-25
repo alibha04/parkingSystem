@@ -1,98 +1,90 @@
 import { createTheme } from '@mui/material/styles';
 
-const customColors = {
-  // 🌙 Dark Mode (New Purple Tones)
-  darkBase: '#110022', // Deep Space Purple
-  darkSurface: '#1C0B2B', // Dark Amethyst
-  darkAccent: '#8A2BE2', // Electric Purple
-  darkSecondary: '#C71585', // Dark Pinkish Purple
-  darkTextPrimary: '#E6E6FA', // Lavender Mist
-  darkTextSecondary: '#B39EB5', // Muted Mauve
-  darkError: '#E63946', // Deep Red
-  darkWarning: '#D72638', // Crimson
-  darkSuccess: '#7DCEA0', // Mint Green
-  darkInfo: '#9370DB', // Soft Purple
-
-  // ☀️ Light Mode (New Greens)
-  lightBase: '#F0FFF0', // Honeydew White
-  lightSurface: '#FFFFFF', // Pure White
-  lightAccent: '#145A32', // Dark Emerald
-  lightSecondary: '#1E8449', // Shamrock Green
-  lightTextPrimary: '#7DCEA0', // Mint Green
-  lightTextSecondary: '#196F3D', // Deep Green
-  lightError: '#FF595E', // Coral Red
-  lightWarning: '#C70039', // Deep Red (No Orange)
-  lightSuccess: '#4CAF50', // Fresh Green
-  lightInfo: '#5F7161', // Muted Olive Green
+const neonGlowColors = {
+  base: '#0d0f17',
+  surface: '#16191f',
+  accent: '#00ffc6',
+  vibrantPink: '#ff007f',
+  neonYellow: '#ffea00',
+  textPrimary: '#ffffff',
+  textSecondary: '#b3b3b3',
+  error: '#ff1744',
+  warning: '#ff9100',
+  success: '#00e676',
+  info: '#2979ff',
+  overlay: '#212121',
+  lightBase: '#f5f5f5',
+  lightSurface: '#ffffff',
+  lightTextPrimary: '#000000',
+  lightTextSecondary: '#757575',
+  lightAccent: '#6200ea',
 };
 
-// 🌙 **Dark Theme**
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: customColors.darkBase,
-      paper: customColors.darkSurface,
+      default: neonGlowColors.base,
+      paper: neonGlowColors.surface,
     },
     primary: {
-      main: customColors.darkAccent,
+      main: neonGlowColors.accent,
     },
     secondary: {
-      main: customColors.darkSecondary,
+      main: neonGlowColors.vibrantPink,
     },
     error: {
-      main: customColors.darkError,
+      main: neonGlowColors.error,
     },
     warning: {
-      main: customColors.darkWarning,
-    },
-    success: {
-      main: customColors.darkSuccess,
+      main: neonGlowColors.warning,
     },
     info: {
-      main: customColors.darkInfo,
+      main: neonGlowColors.info,
+    },
+    success: {
+      main: neonGlowColors.success,
     },
     text: {
-      primary: customColors.darkTextPrimary,
-      secondary: customColors.darkTextSecondary,
+      primary: neonGlowColors.textPrimary,
+      secondary: neonGlowColors.textSecondary,
     },
   },
 });
 
-// ☀️ **Light Theme**
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
     background: {
-      default: customColors.lightBase,
-      paper: customColors.lightSurface,
+      default: neonGlowColors.lightBase,
+      paper: neonGlowColors.lightSurface,
     },
     primary: {
-      main: customColors.lightAccent,
+      main: neonGlowColors.lightAccent,
     },
     secondary: {
-      main: customColors.lightSecondary,
+      main: neonGlowColors.vibrantPink,
     },
     error: {
-      main: customColors.lightError,
+      main: neonGlowColors.error,
     },
     warning: {
-      main: customColors.lightWarning,
-    },
-    success: {
-      main: customColors.lightSuccess,
+      main: neonGlowColors.warning,
     },
     info: {
-      main: customColors.lightInfo,
+      main: neonGlowColors.info,
+    },
+    success: {
+      main: neonGlowColors.success,
     },
     text: {
-      primary: customColors.lightTextPrimary,
-      secondary: customColors.lightTextSecondary,
+      primary: neonGlowColors.lightTextPrimary,
+      secondary: neonGlowColors.lightTextSecondary,
     },
   },
 });
 
-// 📌 **Export function to create the theme based on mode**
+// Export a function to create the theme based on mode
 export const createThemeByMode = (mode) => {
   return mode === 'dark' ? darkTheme : lightTheme;
 };
