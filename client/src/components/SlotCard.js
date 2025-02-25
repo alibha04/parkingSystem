@@ -2,26 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Button, Box, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-// Global set to track assigned slot numbers
-const assignedSlotNumbers = new Set();
+const getUniqueSlotNumber = (slotId) => {
+  const storedSlotNumbers = JSON.parse(localStorage.getItem('slotNumbers')) || {};
 
-const getUniqueSlotNumber = () => {
+  if (storedSlotNumbers[slotId]) {
+    return storedSlotNumbers[slotId]; // Return the stored slot number if already assigned
+  }
+
   let num;
+  const assignedNumbers = new Set(Object.values(storedSlotNumbers)); // Get all assigned numbers
   do {
     num = Math.floor(Math.random() * 1000) + 1;
-  } while (assignedSlotNumbers.has(num)); // Keep generating until unique
-  assignedSlotNumbers.add(num); // Store assigned number
+  } while (assignedNumbers.has(num)); // Ensure uniqueness
+
+  storedSlotNumbers[slotId] = num; // Assign the number to this slot ID
+  localStorage.setItem('slotNumbers', JSON.stringify(storedSlotNumbers)); // Save to localStorage
+
   return num;
 };
 
 const SlotCard = ({ slot }) => {
   const [slotNumber, setSlotNumber] = useState(null);
-
+  
   useEffect(() => {
-    if (!slot?.slotNumber) {
-      setSlotNumber(getUniqueSlotNumber());
-    } else {
-      setSlotNumber(slot.slotNumber);
+    if (slot?._id) {
+      setSlotNumber(getUniqueSlotNumber(slot._id));
     }
   }, [slot]);
 
@@ -55,31 +60,13 @@ const SlotCard = ({ slot }) => {
           <Typography variant="subtitle1" color="text.secondary">
             Status: {slot.status || 'Available'}
           </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{
-              mt: 1,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            Location: {slot.location || 'Unknown'}
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <strong>Location:</strong> {slot?.location && slot.location.trim() !== '' ? slot.location : 'Not Provided'}
           </Typography>
         </CardContent>
       </Link>
       <Box sx={{ p: 2, mt: 'auto' }}>
-        <Button
-          component={Link}
-          to={`/slot-detail/${slot._id}`}
-          variant="contained"
-          color="primary"
-          size="small"
-          fullWidth
-        >
+        <Button component={Link} to={`/slot-detail/${slot._id}`} variant="contained" color="primary" size="small" fullWidth>
           View Details
         </Button>
       </Box>

@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TextField, MenuItem, Button, Typography, Grid, Paper, Container, FormControl, InputLabel, Select } from '@mui/material';
 
+const locationOptions = [
+    'Park Ease (SNT Road)',
+    'The Skyline Stand (Near Railway Station)',
+    'The Beach Side Bay (Gopalpur Sea Beach)',
+    'The City Center Corral (Brahmapur Stadium)',
+];
+
 const CreateSlot = () => {
     const navigate = useNavigate();
     const [slot, setSlot] = useState({
@@ -16,6 +23,7 @@ const CreateSlot = () => {
         totalRent: 0,
         arrivalTime: '',
         bookingDate: '',
+        location: '',  // Added location field
     });
 
     const [loading, setLoading] = useState(false);
@@ -35,10 +43,9 @@ const CreateSlot = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(''); // Clear previous errors
+        setError('');
 
-        // Validation
-        if (!slot.vehicleType || !slot.customerName || !slot.phoneNumber || !slot.vehicleNumber || !slot.duration) {
+        if (!slot.vehicleType || !slot.customerName || !slot.phoneNumber || !slot.vehicleNumber || !slot.duration || !slot.location) {
             setError('Please fill all required fields.');
             setLoading(false);
             return;
@@ -58,6 +65,7 @@ const CreateSlot = () => {
                 totalRent: 0,
                 arrivalTime: '',
                 bookingDate: '',
+                location: '',
             });
             navigate('/slots');
         } catch (err) {
@@ -76,7 +84,7 @@ const CreateSlot = () => {
                 <form onSubmit={onSubmit}>
                     <TextField
                         fullWidth
-                        label="Customer Name *"
+                        label="Customer Name "
                         name="customerName"
                         value={slot.customerName}
                         onChange={onChange}
@@ -86,7 +94,7 @@ const CreateSlot = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Phone Number *"
+                        label="Phone Number "
                         name="phoneNumber"
                         value={slot.phoneNumber}
                         onChange={onChange}
@@ -96,7 +104,7 @@ const CreateSlot = () => {
                     />
                     <TextField
                         fullWidth
-                        label="Vehicle Number *"
+                        label="Vehicle Number "
                         name="vehicleNumber"
                         value={slot.vehicleNumber}
                         onChange={onChange}
@@ -104,8 +112,9 @@ const CreateSlot = () => {
                         margin="normal"
                         required
                     />
+
                     <FormControl fullWidth margin="normal">
-                        <InputLabel>Vehicle Type *</InputLabel>
+                        <InputLabel>Vehicle Type </InputLabel>
                         <Select
                             name="vehicleType"
                             value={slot.vehicleType}
@@ -118,9 +127,28 @@ const CreateSlot = () => {
                             <MenuItem value="Truck">Truck</MenuItem>
                         </Select>
                     </FormControl>
+
+                    {/* Location Selection */}
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel>Choose Location </InputLabel>
+                        <Select
+                            name="location"
+                            value={slot.location}
+                            onChange={onChange}
+                            variant="outlined"
+                            required
+                        >
+                            {locationOptions.map((loc, index) => (
+                                <MenuItem key={index} value={loc}>
+                                    {loc}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
                     <TextField
                         fullWidth
-                        label="Duration (in hours) *"
+                        label="Duration (in hours) "
                         name="duration"
                         type="number"
                         value={slot.duration}
@@ -154,6 +182,7 @@ const CreateSlot = () => {
                         variant="outlined"
                         margin="normal"
                     />
+
                     <Grid container spacing={2} sx={{ mt: 3 }}>
                         <Grid item xs={6}>
                             <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
@@ -166,6 +195,7 @@ const CreateSlot = () => {
                             </Button>
                         </Grid>
                     </Grid>
+
                     {error && (
                         <Typography color="error" variant="body2" sx={{ mt: 2 }}>
                             {typeof error === 'object' ? JSON.stringify(error) : error}

@@ -31,8 +31,14 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[3],
 }));
 
+const getStoredSlotNumber = (slotId) => {
+  const storedSlotNumbers = JSON.parse(localStorage.getItem('slotNumbers')) || {};
+  return storedSlotNumbers[slotId] || 'N/A';
+};
+
 const DetailsSlot = () => {
   const [slot, setSlot] = useState({});
+  const [slotNumber, setSlotNumber] = useState('N/A');
   const [openDialog, setOpenDialog] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,16 +46,17 @@ const DetailsSlot = () => {
 
   useEffect(() => {
     axios
-      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`) // Use correct API
+      .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`)
       .then((res) => {
         setSlot(res.data);
-        console.log('slot details', res.data);
+        setSlotNumber(getStoredSlotNumber(res.data._id));
+        console.log('Slot details:', res.data);
       })
       .catch((error) => {
         console.error('Error fetching slot details:', error.message);
         enqueueSnackbar('Error fetching slot details!', { variant: 'error' });
       });
-}, [id, enqueueSnackbar]);
+  }, [id, enqueueSnackbar]);
 
   const onDeleteClick = () => {
     setOpenDialog(true);
@@ -92,12 +99,13 @@ const DetailsSlot = () => {
           </Grid>
           <Grid item xs={12} md={8}>
             <Typography variant="h4" component="h1" gutterBottom>
-              Slot No: {slot.slotNumber || 'N/A'}
+              Slot No: {slotNumber}
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Box display="flex" flexDirection="column">
               <Typography variant="body1">Vehicle Type: {slot.vehicleType || 'N/A'}</Typography>
               <Typography variant="body1">Customer Name: {slot.customerName || 'N/A'}</Typography>
+              <Typography variant="body1">Location: {slot.location ? slot.location : 'Location not provided'}</Typography>
               <Typography variant="body1">Phone Number: {slot.phoneNumber || 'N/A'}</Typography>
               <Typography variant="body1">Vehicle Number: {slot.vehicleNumber || 'N/A'}</Typography>
               <Typography variant="body1">Duration: {slot.duration || 'N/A'} hours</Typography>
@@ -108,12 +116,7 @@ const DetailsSlot = () => {
           </Grid>
         </Grid>
         <Box mt={4} display="flex" justifyContent="space-between">
-          <Button
-            startIcon={<ArrowBackIcon />}
-            component={RouterLink}
-            to="/slots"
-            variant="outlined"
-          >
+          <Button startIcon={<ArrowBackIcon />} component={RouterLink} to="/slots" variant="outlined">
             Back to Parking Slots
           </Button>
           <Box>
@@ -127,24 +130,14 @@ const DetailsSlot = () => {
             >
               Edit Slot
             </Button>
-            <Button
-              startIcon={<DeleteIcon />}
-              onClick={onDeleteClick}
-              variant="contained"
-              color="error"
-            >
+            <Button startIcon={<DeleteIcon />} onClick={onDeleteClick} variant="contained" color="error">
               Delete Slot
             </Button>
           </Box>
         </Box>
       </StyledPaper>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleDeleteCancel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={openDialog} onClose={handleDeleteCancel} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
