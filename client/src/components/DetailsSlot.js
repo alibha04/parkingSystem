@@ -105,7 +105,6 @@ const DetailsSlot = () => {
             <Box display="flex" flexDirection="column">
               <Typography variant="body1">Vehicle Type: {slot.vehicleType || 'N/A'}</Typography>
               <Typography variant="body1">Customer Name: {slot.customerName || 'N/A'}</Typography>
-              <Typography variant="body1">Location: {slot.location ? slot.location : 'Location not provided'}</Typography>
               <Typography variant="body1">Phone Number: {slot.phoneNumber || 'N/A'}</Typography>
               <Typography variant="body1">Vehicle Number: {slot.vehicleNumber || 'N/A'}</Typography>
               <Typography variant="body1">Duration: {slot.duration || 'N/A'} hours</Typography>

@@ -23,9 +23,9 @@ const getUniqueSlotNumber = (slotId) => {
 
 const SlotCard = ({ slot }) => {
   const [slotNumber, setSlotNumber] = useState(null);
-  
+
   useEffect(() => {
-    if (slot?._id) {
+    if (slot?._id) { // Ensure slot ID exists before assigning
       setSlotNumber(getUniqueSlotNumber(slot._id));
     }
   }, [slot]);
@@ -60,13 +60,17 @@ const SlotCard = ({ slot }) => {
           <Typography variant="subtitle1" color="text.secondary">
             Status: {slot.status || 'Available'}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            <strong>Location:</strong> {slot?.location && slot.location.trim() !== '' ? slot.location : 'Not Provided'}
-          </Typography>
         </CardContent>
       </Link>
       <Box sx={{ p: 2, mt: 'auto' }}>
-        <Button component={Link} to={`/slot-detail/${slot._id}`} variant="contained" color="primary" size="small" fullWidth>
+        <Button
+          component={Link}
+          to={`/slot-detail/${slot._id}`}
+          variant="contained"
+          color="primary"
+          size="small"
+          fullWidth
+        >
           View Details
         </Button>
       </Box>

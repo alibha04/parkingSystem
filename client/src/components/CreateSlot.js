@@ -3,12 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TextField, MenuItem, Button, Typography, Grid, Paper, Container, FormControl, InputLabel, Select } from '@mui/material';
 
-const locationOptions = [
-    'Park Ease (SNT Road)',
-    'The Skyline Stand (Near Railway Station)',
-    'The Beach Side Bay (Gopalpur Sea Beach)',
-    'The City Center Corral (Brahmapur Stadium)',
-];
+
 
 const CreateSlot = () => {
     const navigate = useNavigate();
@@ -23,7 +18,6 @@ const CreateSlot = () => {
         totalRent: 0,
         arrivalTime: '',
         bookingDate: '',
-        location: '',  // Added location field
     });
 
     const [loading, setLoading] = useState(false);
@@ -65,7 +59,6 @@ const CreateSlot = () => {
                 totalRent: 0,
                 arrivalTime: '',
                 bookingDate: '',
-                location: '',
             });
             navigate('/slots');
         } catch (err) {
@@ -128,24 +121,7 @@ const CreateSlot = () => {
                         </Select>
                     </FormControl>
 
-                    {/* Location Selection */}
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Choose Location </InputLabel>
-                        <Select
-                            name="location"
-                            value={slot.location}
-                            onChange={onChange}
-                            variant="outlined"
-                            required
-                        >
-                            {locationOptions.map((loc, index) => (
-                                <MenuItem key={index} value={loc}>
-                                    {loc}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-
+                   
                     <TextField
                         fullWidth
                         label="Duration (in hours) "
