@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import SlotCard from './SlotCard'; // You'll need to create this component for slot details
+import SlotCard from './SlotCard'; 
 import axios from 'axios';
 
 const SearchSlot = () => {
@@ -24,29 +24,35 @@ const SearchSlot = () => {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     searchTerm: '',
-    searchField: 'slotNumber', // Slot Number (e.g., slot_id, or name)
-    sortBy: 'slotNumber', // Sorting by Slot Number
+    searchField: 'slotNumber',
+    sortBy: 'slotNumber',
     sortOrder: 'asc',
   });
 
   useEffect(() => {
     axios
-      .get('https://yourapi.com/api/slots') // Change this URL to match your parking system's API
+      .get('https://parkingsystem-8xdu.onrender.com/api/slots')
       .then((res) => {
-        setSlots(res.data);
-        setFilteredSlots(res.data);
-        setLoading(false);
+        if (Array.isArray(res.data)) {
+          setSlots(res.data);
+          setFilteredSlots(res.data);
+        } else {
+          console.error('Invalid API response:', res.data);
+          setSlots([]);
+          setFilteredSlots([]);
+        }
       })
       .catch((err) => {
         console.error('Error fetching parking slots:', err);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, []);
 
   const applyFilters = useCallback(() => {
-    let result = [...slots];
+    let result = Array.isArray(slots) ? [...slots] : [];
 
-    // Search filter
     if (filters.searchTerm) {
       result = result.filter((slot) => {
         const searchValue = slot[filters.searchField]?.toString().toLowerCase();
@@ -54,7 +60,6 @@ const SearchSlot = () => {
       });
     }
 
-    // Sorting
     result.sort((a, b) => {
       let valueA = a[filters.sortBy]?.toString().toLowerCase();
       let valueB = b[filters.sortBy]?.toString().toLowerCase();
@@ -97,30 +102,23 @@ const SearchSlot = () => {
         Find available parking slots from the system
       </Typography>
 
-      {/* Search and Filter Section */}
       <Card sx={{ p: 3, mt: 3 }}>
         <CardContent>
           <Grid container spacing={2} alignItems="center">
-            {/* Search Field */}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Search"
                 value={filters.searchTerm}
                 onChange={(e) => setFilters({ ...filters, searchTerm: e.target.value })}
-                pattern={{
-                  startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
-                }}
               />
             </Grid>
 
-            {/* Search By Dropdown */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Search By</InputLabel>
                 <Select
                   value={filters.searchField}
-                  label="Search By"
                   onChange={(e) => setFilters({ ...filters, searchField: e.target.value })}
                 >
                   <MenuItem value="slotNumber">Slot Number</MenuItem>
@@ -129,13 +127,11 @@ const SearchSlot = () => {
               </FormControl>
             </Grid>
 
-            {/* Sort By Dropdown */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Sort By</InputLabel>
                 <Select
                   value={filters.sortBy}
-                  label="Sort By"
                   onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
                 >
                   <MenuItem value="slotNumber">Slot Number</MenuItem>
@@ -144,13 +140,11 @@ const SearchSlot = () => {
               </FormControl>
             </Grid>
 
-            {/* Sort Order */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel>Order</InputLabel>
                 <Select
                   value={filters.sortOrder}
-                  label="Order"
                   onChange={(e) => setFilters({ ...filters, sortOrder: e.target.value })}
                 >
                   <MenuItem value="asc">Ascending</MenuItem>
@@ -159,14 +153,9 @@ const SearchSlot = () => {
               </FormControl>
             </Grid>
 
-            {/* Reset Filters Button */}
             <Grid item xs={12}>
               <Box display="flex" justifyContent="center">
-                <Button
-                  variant="outlined"
-                  startIcon={<RestartAltIcon />}
-                  onClick={resetFilters}
-                >
+                <Button variant="outlined" startIcon={<RestartAltIcon />} onClick={resetFilters}>
                   Reset Filters
                 </Button>
               </Box>
@@ -175,17 +164,17 @@ const SearchSlot = () => {
         </CardContent>
       </Card>
 
-      {/* Results Section */}
       <Typography variant="body2" color="textSecondary" sx={{ mt: 3 }}>
-        Found {filteredSlots.length} parking slots
+        Found {Array.isArray(filteredSlots) ? filteredSlots.length : 0} parking slots
       </Typography>
 
       <Grid container spacing={3} sx={{ mt: 3 }}>
-        {filteredSlots.map((slot) => (
-          <Grid item xs={12} sm={6} md={4} key={slot.slotNumber}>
-            <SlotCard slot={slot} /> {/* You can create a SlotCard component for displaying slot info */}
-          </Grid>
-        ))}
+        {Array.isArray(filteredSlots) &&
+          filteredSlots.map((slot) => (
+            <Grid item xs={12} sm={6} md={4} key={slot.slotNumber}>
+              <SlotCard slot={slot} />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );
