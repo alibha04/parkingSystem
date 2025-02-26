@@ -60,6 +60,11 @@ const SlotCard = ({ slot }) => {
           <Typography variant="subtitle1" color="text.secondary">
             Status: {slot.status || 'Available'}
           </Typography>
+          {slot.customerName && ( // Display customer name if available
+            <Typography variant="body2" color="text.secondary">
+              Customer: {slot.customerName}
+            </Typography>
+          )}
         </CardContent>
       </Link>
       <Box sx={{ p: 2, mt: 'auto' }}>
