@@ -21,7 +21,7 @@ const Footer = () => (
       Built with ❤️ 
     </Typography>
     <Typography variant="body2" sx={{ mt: 2 }}>
-      © {new Date().getFullYear()} Alibha Rani Pradhan | All Rights Reserved
+      © {new Date().getFullYear()} PARKING SYSTEM | All Rights Reserved
     </Typography>
   </Box>
 );
