@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -9,31 +9,26 @@ import {
   Menu,
   MenuItem,
   Button,
-  Tooltip,
-
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Navbar = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => setMenuAnchorEl(event.currentTarget);
-
-
-  const handleMenuClick = (event) => {
-    setMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-  };
+  const handleMenuClose = () => setMenuAnchorEl(null);
 
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{ width: '100%' }}>
       <Toolbar>
+        <IconButton onClick={() => navigate(-1)} color="primary" sx={{ mr: 1 }}>
+          <ArrowBackIcon />
+        </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
           Parking System
         </Typography>
@@ -45,7 +40,6 @@ const Navbar = () => {
             startIcon={<HomeIcon />}
           >
           </Button>
-          
 
           <IconButton
             color="primary"
@@ -58,7 +52,6 @@ const Navbar = () => {
             <GitHubIcon />
           </IconButton>
 
-        
           <IconButton
             color="primary"
             component="a"
@@ -70,32 +63,30 @@ const Navbar = () => {
             <MenuBookIcon />
           </IconButton>
 
-
-          <IconButton onClick={handleMenuOpen} color="inherit" position="left" >
-                    <MenuIcon />
-                </IconButton>
-                <Menu
-                    anchorEl={menuAnchorEl}
-                    open={Boolean(menuAnchorEl)}
-                    onClose={handleMenuClose}
-                >
-                    <MenuItem component={RouterLink} to="/add-slot" onClick={handleMenuClose}>
-                        Create Lot
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to="/slots" onClick={handleMenuClose}>
-                        Lot List
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to="/SearchSlot.js" onClick={handleMenuClose}>
-                        Search Lot
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to="/qrcodes" onClick={handleMenuClose}>
-                        Download Token
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to="/about" onClick={handleMenuClose}>
-                        About
-                    </MenuItem>
-                </Menu>
-
+          <IconButton onClick={handleMenuOpen} color="inherit">
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={menuAnchorEl}
+            open={Boolean(menuAnchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem component={RouterLink} to="/add-slot" onClick={handleMenuClose}>
+              Create Lot
+            </MenuItem>
+            <MenuItem component={RouterLink} to="/slots" onClick={handleMenuClose}>
+              Lot List
+            </MenuItem>
+            <MenuItem component={RouterLink} to="/SearchSlot.js" onClick={handleMenuClose}>
+              Search Lot
+            </MenuItem>
+            <MenuItem component={RouterLink} to="/qrcodes" onClick={handleMenuClose}>
+              Download Token
+            </MenuItem>
+            <MenuItem component={RouterLink} to="/about" onClick={handleMenuClose}>
+              About
+            </MenuItem>
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
