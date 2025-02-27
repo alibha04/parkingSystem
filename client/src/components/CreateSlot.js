@@ -39,7 +39,7 @@ const CreateSlot = () => {
         setLoading(true);
         setError('');
 
-        if (!slot.vehicleType || !slot.customerName || !slot.phoneNumber || !slot.vehicleNumber || !slot.duration || !slot.location) {
+        if (!slot.vehicleType || !slot.customerName || !slot.phoneNumber || !slot.vehicleNumber || !slot.duration ) {
             setError('Please fill all required fields.');
             setLoading(false);
             return;
