@@ -11,9 +11,7 @@ import {
   Switch
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import HomeIcon from '@mui/icons-material/Home';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Navbar = ({ toggleTheme, darkMode }) => {
@@ -29,44 +27,37 @@ const Navbar = ({ toggleTheme, darkMode }) => {
         <IconButton onClick={() => navigate(-1)} color="primary" sx={{ mr: 1 }}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'primary.main' }}>
-          Parking System
+
+        {/* Clickable Title with Opposite Theme Hover Effect */}
+        <Typography
+          variant="h5"
+          component="div"
+          onClick={() => navigate('/')}
+          sx={{
+            flexGrow: 1,
+            color: 'primary.main',
+            fontWeight: 'bold',
+            fontFamily: '"Poppins", sans-serif',
+            letterSpacing: 1.5,
+            cursor: 'pointer',
+            transition: 'color 0.3s ease-in-out',
+            '&:hover': {
+              color: darkMode ? '#6200ea' : '#00ffc6', // Opposite theme color
+            },
+          }}
+        >
+            Parking System
         </Typography>
+
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton
-            color="primary"
-            component={RouterLink}
-            to="/"
-            aria-label="Home"
-          >
+          <IconButton color="primary" component={RouterLink} to="/" aria-label="Home">
             <HomeIcon />
-          </IconButton>
-
-          <IconButton
-            color="primary"
-            component="a"
-            href="https://github.com/alibha04/parkingSystem"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <GitHubIcon />
-          </IconButton>
-
-          <IconButton
-            color="primary"
-            component="a"
-            href="https://docs.google.com/document/d/1CWyqXhAvyTfxwv0Giqa-ITFZZYGYbootp2S3_bSeOf8/edit?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Resume"
-          >
-            <MenuBookIcon />
           </IconButton>
 
           {/* Theme Toggle Switch */}
           <Switch checked={darkMode} onChange={toggleTheme} />
 
+          {/* Dropdown Menu */}
           <IconButton onClick={handleMenuOpen} color="inherit">
             <MenuIcon />
           </IconButton>
