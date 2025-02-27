@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Box, Container, Button } from '@mui/material';
+import { CssBaseline, Box, Container } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import { Routes, Route } from 'react-router-dom';
 
@@ -17,7 +17,6 @@ import ExportPage from './components/ExportPage';
 import SearchPage from './components/SearchSlot';
 import QRCodePage from "./components/QRCodePage";
 import About from "./components/About";
-
 
 const App = () => {
     // State to manage theme mode (dark/light)
@@ -42,15 +41,10 @@ const App = () => {
                 }}
             >
                 <Box display="flex" flexDirection="column" minHeight="100vh">
-                    <Navbar />
+                    {/* Pass toggleTheme and mode to Navbar */}
+                    <Navbar toggleTheme={toggleTheme} darkMode={mode === 'dark'} />
+                    
                     <Container component="main" flex="1">
-                        {/* Theme Toggle Button */}
-                        <Box display="flex" justifyContent="center" my={2}>
-                            <Button variant="contained" onClick={toggleTheme}>
-                                Toggle {mode === 'dark' ? 'Light' : 'Dark'} Mode
-                            </Button>
-                        </Box>
-                        
                         <Routes>
                             <Route exact path="/" element={<HomePage />} />
                             <Route path="/slots" element={<SlotList />} />
@@ -64,6 +58,7 @@ const App = () => {
                             <Route path="*" element={<div>404 - Page Not Found</div>} />
                         </Routes>
                     </Container>
+                    
                     <Footer />
                 </Box>
             </SnackbarProvider>

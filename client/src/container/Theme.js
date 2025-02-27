@@ -87,4 +87,4 @@ const lightTheme = createTheme({
 // Export a function to create the theme based on mode
 export const createThemeByMode = (mode) => {
   return mode === 'dark' ? darkTheme : lightTheme;
-};
+}; 

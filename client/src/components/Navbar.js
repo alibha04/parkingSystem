@@ -8,7 +8,7 @@ import {
   Box,
   Menu,
   MenuItem,
-  Button,
+  Switch
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -16,7 +16,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const Navbar = () => {
+const Navbar = ({ toggleTheme, darkMode }) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const navigate = useNavigate();
 
@@ -33,13 +33,14 @@ const Navbar = () => {
           Parking System
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Button
+          <IconButton
             color="primary"
             component={RouterLink}
             to="/"
-            startIcon={<HomeIcon />}
+            aria-label="Home"
           >
-          </Button>
+            <HomeIcon />
+          </IconButton>
 
           <IconButton
             color="primary"
@@ -63,6 +64,9 @@ const Navbar = () => {
             <MenuBookIcon />
           </IconButton>
 
+          {/* Theme Toggle Switch */}
+          <Switch checked={darkMode} onChange={toggleTheme} />
+
           <IconButton onClick={handleMenuOpen} color="inherit">
             <MenuIcon />
           </IconButton>
@@ -77,7 +81,7 @@ const Navbar = () => {
             <MenuItem component={RouterLink} to="/slots" onClick={handleMenuClose}>
               Lot List
             </MenuItem>
-            <MenuItem component={RouterLink} to="/SearchSlot.js" onClick={handleMenuClose}>
+            <MenuItem component={RouterLink} to="/search" onClick={handleMenuClose}>
               Search Lot
             </MenuItem>
             <MenuItem component={RouterLink} to="/qrcodes" onClick={handleMenuClose}>
