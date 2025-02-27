@@ -11,7 +11,6 @@ import {
   Switch
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Navbar = ({ toggleTheme, darkMode }) => {
@@ -46,14 +45,10 @@ const Navbar = ({ toggleTheme, darkMode }) => {
             },
           }}
         >
-            Parking System
+          Parking System
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton color="primary" component={RouterLink} to="/" aria-label="Home">
-            <HomeIcon />
-          </IconButton>
-
           {/* Theme Toggle Switch */}
           <Switch checked={darkMode} onChange={toggleTheme} />
 

@@ -16,9 +16,10 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import GroupIcon from "@mui/icons-material/Group";
-import QrCodeIcon from "@mui/icons-material/QrCode"; 
+import QrCodeIcon from "@mui/icons-material/QrCode";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import axios from "axios";
 import { motion } from "framer-motion";
 
@@ -65,7 +66,7 @@ const ParkingHomePage = () => {
 
   return (
     <Container
-      maxWidth="xl"  // ⬅ Increased the max width to "xl" for a larger page
+      maxWidth="xl"
       sx={{
         textAlign: "center",
         py: 5,
@@ -145,6 +146,7 @@ const ParkingHomePage = () => {
           { to: "/search", label: "Search Slots", icon: <SearchIcon /> },
           { to: "/qrcodes", label: "QR Codes", icon: <QrCodeIcon /> },
           { to: "/export", label: "Download Slots List", icon: <GroupIcon /> },
+          { href: "https://github.com/88chinu/parkingSystem", label: "GitHub", icon: <GitHubIcon /> },
           { href: "https://docs.google.com/document/d/1z5jlCUQCnseKXfEx0OPbSf-uA9YbQBDXU7vncDMGUE0/edit", label: "Documentation", icon: <InsertDriveFileIcon /> },
           { href: "https://docs.google.com/document/d/1CWyqXhAvyTfxwv0Giqa-ITFZZYGYbootp2S3_bSeOf8/edit?usp=sharing", label: "Resume", icon: <ContactPageIcon /> },
         ].map((button, index) => (
@@ -160,8 +162,10 @@ const ParkingHomePage = () => {
               startIcon={button.icon}
               fullWidth
               sx={{
-                py: 2,  // Increased padding for a bigger button
-                fontSize: "1.1rem", // Slightly larger text
+                py: 2,
+                fontSize: "1.1rem",
+                bgcolor: "primary.main",
+                "&:hover": { bgcolor: "primary.dark" }, // <-- Hover effect
               }}
             >
               {button.label}

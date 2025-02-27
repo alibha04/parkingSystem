@@ -116,9 +116,7 @@ const Footer = () => (
 
       <Divider sx={{ my: 4, bgcolor: 'primary.light' }} />
 
-      <Typography variant="h6" gutterBottom>
-        Built with ❤️
-      </Typography>
+      
       <Typography variant="body2" sx={{ mt: 2 }}>
         © {new Date().getFullYear()} PARKING SYSTEM | All Rights Reserved
       </Typography>
