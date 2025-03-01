@@ -38,7 +38,7 @@ const getStoredSlotNumber = (slotId) => {
 
 const DetailsSlot = () => {
   const [slot, setSlot] = useState({});
-  const [slotNumber, setSlotNumber] = useState('N/A');
+  const [slotNumber, setSlotNumber] = useState('N/A'); // Default value
   const [openDialog, setOpenDialog] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const DetailsSlot = () => {
       .get(`https://parkingsystem-8xdu.onrender.com/api/lots/${id}`)
       .then((res) => {
         setSlot(res.data);
-        setSlotNumber(getStoredSlotNumber(res.data._id));
+        setSlotNumber(getStoredSlotNumber(id)); // Retrieve slot number from localStorage
         console.log('Slot details:', res.data);
       })
       .catch((error) => {
