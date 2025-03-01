@@ -18,8 +18,7 @@ const ExportPage = () => {
   useEffect(() => {
     axios.get('https://parkingsystem-8xdu.onrender.com/api/lots')
       .then((res) => {
-        console.log('Fetched slots:', res.data); // Debugging
-        if (Array.isArray(res.data)) {
+          if (Array.isArray(res.data)) {
           setSlots(res.data);
         } else {
           console.error('Unexpected API response format:', res.data);
@@ -49,9 +48,8 @@ const ExportPage = () => {
     doc.setFontSize(10);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 25);
 
-    const tableColumn = ['Slot Number', 'Customer Name', 'Vehicle Number', 'Vehicle Type', 'Duration', 'Total Rent'];
+    const tableColumn = [ 'Customer Name', 'Vehicle Number', 'Vehicle Type', 'Duration', 'Total Rent'];
     const tableRows = slots.map((slot) => [
-      slot.slotNumber,
       slot.customerName,
       slot.vehicleNumber,
       slot.vehicleType,
@@ -75,7 +73,6 @@ const ExportPage = () => {
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(
       slots.map((slot) => ({
-        Slot_Number: slot.slotNumber,
         Customer_Name: slot.customerName,
         Vehicle_Number: slot.vehicleNumber,
         Vehicle_Type: slot.vehicleType,
@@ -95,7 +92,6 @@ const ExportPage = () => {
   const exportToCSV = () => {
     const worksheet = XLSX.utils.json_to_sheet(
       slots.map((slot) => ({
-        Slot_Number: slot.slotNumber,
         Customer_Name: slot.customerName,
         Vehicle_Number: slot.vehicleNumber,
         Vehicle_Type: slot.vehicleType,
@@ -116,7 +112,6 @@ const ExportPage = () => {
 
     slots.forEach((slot, index) => {
       content += `${index + 1}. SLOT DETAILS\n`;
-      content += `Slot Number: ${slot.slotNumber}\n`;
       content += `Customer Name: ${slot.customerName}\n`;
       content += `Vehicle Number: ${slot.vehicleNumber}\n`;
       content += `Vehicle Type: ${slot.vehicleType}\n`;
