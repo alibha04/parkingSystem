@@ -108,10 +108,7 @@ const Footer = () => (
           <Typography variant="body2" color="inherit">
             Our parking system makes it easy to manage and track parking slots, bookings, and more.
           </Typography>
-          <Typography variant="body2" color="inherit" mt={2}>
-            <b>Our Mission:</b> To simplify parking management with innovative technology.
-          </Typography>
-        </Grid>
+         </Grid>
       </Grid>
 
       <Divider sx={{ my: 4, bgcolor: 'primary.light' }} />

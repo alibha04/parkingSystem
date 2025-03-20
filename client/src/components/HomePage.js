@@ -147,7 +147,7 @@ const ParkingHomePage = () => {
           { to: "/qrcodes", label: "QR Codes", icon: <QrCodeIcon /> },
           { to: "/export", label: "Download Slots List", icon: <GroupIcon /> },
           { href: "https://github.com/alibha04/parkingSystem", label: "GitHub", icon: <GitHubIcon /> },
-          { href: "https://docs.google.com/document/d/1SXGSfY6eMHR4q8MqP98ks0Dhvf_JbI9EHT8besOUO0U/edit?usp=sharing", label: "Documentation", icon: <InsertDriveFileIcon /> },
+          { href: "https://docs.google.com/document/d/1wBTX5_SLsLLlN16lWjcaX_t1blvvFtnYX4KdWq0fDUc/edit?usp=sharing", label: "Documentation", icon: <InsertDriveFileIcon /> },
           { href: "https://docs.google.com/document/d/1CWyqXhAvyTfxwv0Giqa-ITFZZYGYbootp2S3_bSeOf8/edit?usp=sharing", label: "Resume", icon: <ContactPageIcon /> },
         ].map((button, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
